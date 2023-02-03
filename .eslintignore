@@ -1,0 +1,4 @@
+# eslint 配置文件
+/.eslintrc.cjs
+# vite 配置文件
+/vite.config.ts
