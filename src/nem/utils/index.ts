@@ -13,3 +13,4 @@ export const getUrlParam = (name: string): string | null => {
 
 export { storage };
 export * from './loading';
+export * from './data';
