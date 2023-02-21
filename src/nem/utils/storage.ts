@@ -16,13 +16,14 @@ export default {
    * 获取全部
    */
   info() {
-    const d: any = {};
+    const all: { [key: string]: any } = {};
 
-    store.each((value: any, key: any) => {
-      d[key] = value;
+    store.each((value: any, key: string) => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      all[key] = value;
     });
 
-    return d;
+    return all;
   },
 
   /**

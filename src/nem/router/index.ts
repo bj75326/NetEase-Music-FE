@@ -7,7 +7,7 @@ import {
   RouteRecordNormalized,
   Router as VueRouter,
 } from 'vue-router';
-import { config, module } from '/@/nem';
+import { config, module, storage } from '/@/nem';
 import { Loading } from '../utils';
 import { isArray } from 'lodash-es';
 import { showFailToast } from 'vant';
@@ -209,14 +209,19 @@ router.beforeEach(async (to, from, next) => {
       if (user.token) {
         // 在登录页
         if (to.path.includes('/login')) {
-          
+          // token 未过期
+          if (!storage.isExpired('token')) {
+            // 回到首页
+            return next('/');
+          }
         } else {
+          // 添加路由进程
           process.add(to);
         }
       } else {
         // 无需 token 验证
-        if (config.ignore.token.find((path)=>to.path === path)) {
-          
+        if (!config.ignore.token.find((path: string) => to.path === path)) {
+          return next('/login');
         }
       }
 
