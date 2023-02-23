@@ -1,7 +1,7 @@
 import axios from 'axios';
 import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
-import { } from 'vant';
+import { showFailToast } from 'vant';
 import { isDev, config } from '/@/nem';
 import { storage } from '/@/nem/utils';
 import { useBase } from '/$/base';
@@ -125,12 +125,16 @@ request.interceptors.response.use(
         user.logout();
       } else {
         if (isDev) {
-          
+          showFailToast(`${config.url} ${status}`);
         } else {
+          switch (status) {
 
+          }
         }
       }
     }
+
+    return Promise.reject({ message: error.message });
   },
 );
 
