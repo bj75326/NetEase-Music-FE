@@ -27,6 +27,6 @@ module.exports = {
   rules: {
     "@typescript-eslint/strict-boolean-expressions": 0,
     "@typescript-eslint/no-unsafe-return": 1,
-
+    "@typescript-eslint/no-unsafe-assignment": 1,
   }
 }

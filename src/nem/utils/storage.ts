@@ -8,7 +8,7 @@ export default {
    * 获取
    * @param {string} key 关键字
    */
-  get(key: string) {
+  get(key: string): unknown {
     return store.get(key);
   },
 
@@ -16,10 +16,9 @@ export default {
    * 获取全部
    */
   info() {
-    const all: { [key: string]: any } = {};
+    const all: { [key: string]: unknown } = {};
 
-    store.each((value: any, key: string) => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    store.each((value: unknown, key: string) => {
       all[key] = value;
     });
 
@@ -32,7 +31,7 @@ export default {
    * @param {*} value 值
    * @param {number} expires 过期时间
    */
-  set(key: string, value: any, expires?: number) {
+  set(key: string, value: unknown, expires?: number) {
     store.set(key, value);
 
     if (expires !== undefined && !Number.isNaN(expires)) {
@@ -60,7 +59,7 @@ export default {
    * @param {string} key 关键字
    */
   getExpiration(key: string): number {
-    return this.get(`${key}${this.suffix}`);
+    return this.get(`${key}${this.suffix}`) as number;
   },
 
   /**

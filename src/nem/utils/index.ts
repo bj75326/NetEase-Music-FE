@@ -1,5 +1,23 @@
-import { } from 'lodash-es';
+import {  } from 'lodash-es';
 import storage from './storage';
+
+// 深度合并
+export const deepMerge = (
+  obj1: { [key: string]: unknown },
+  obj2: { [key: string]: unknown },
+) => {
+  for (const key in obj2) {
+    obj1[key] &&
+    (obj1[key] as object).toString() === '[object Object]' &&
+    obj2[key] &&
+    (obj2[key] as object).toString() === '[object Object]'
+      ? deepMerge(
+          obj1[key] as { [key: string]: unknown },
+          obj2[key] as { [key: string]: unknown },
+        )
+      : (obj1[key] = obj2[key]);
+  }
+};
 
 // 获取地址栏参数
 export const getUrlParam = (name: string): string | null => {
