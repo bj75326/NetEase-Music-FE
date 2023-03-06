@@ -133,9 +133,17 @@ export function getBrowser() {
     isIOS,
     isPC,
     isMini,
-    screen
+    screen,
   };
 }
+
+// 横杠转驼峰
+export const toCamel = (str: string): string => {
+  return str.replace(
+    /([^-])(?:-+([^-]))/g,
+    ($0, $1: string, $2: string) => $1 + $2.toUpperCase(),
+  );
+};
 
 export { storage };
 export * from './loading';

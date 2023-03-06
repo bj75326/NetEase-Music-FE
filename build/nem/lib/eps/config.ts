@@ -3,9 +3,17 @@ export default {
     mapping: [
       {
         // 自定义匹配
-        custom: ({ entityName, propertyName, type }) => {
+        custom: ({
+          entityName,
+          propertyName,
+          type,
+        }: {
+          entityName: string;
+          propertyName: string;
+          type: string;
+        }) => {
           // status 原本是tinyint，如果是1的话，== true 是可以的，但是不能 === true，请谨慎使用
-          if (propertyName === 'status' && type == 'tinyint') return 'boolean';
+          if (propertyName === 'status' && type === 'tinyint') return 'boolean';
           // 如果没有，返回null或者不返回，则继续遍历其他匹配规则
           return null;
         },

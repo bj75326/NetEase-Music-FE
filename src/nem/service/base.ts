@@ -36,7 +36,7 @@ export function Service(
   };
 }
 
-interface IBaseServiceProtoType {
+export interface IBaseServiceProtoType {
   prototype: {
     namespace?: string;
     mock?: boolean;
@@ -64,7 +64,7 @@ export class BaseService {
 
   proxy?: string;
 
-  request(options: AxiosRequestConfig = {}) {
+  request<D>(options: AxiosRequestConfig<D> = {}) {
     if (!options.params) options.params = {};
 
     let namespace: string | undefined = '';
@@ -93,5 +93,36 @@ export class BaseService {
     }
 
     return request(options);
+  }
+
+  list(data: unknown) {
+    return this.request({
+      url: '/list',
+      method: 'POST',
+      data,
+    });
+  }
+
+  page(data: unknown) {
+    return this.request({
+      url: '/page',
+      method: 'POST',
+      data,
+    });
+  }
+
+  info(params: unknown) {
+    return this.request({
+      url: '/info',
+      params,
+    });
+  }
+
+  update(data: unknown) {
+    return this.request({
+      url: '/update',
+      method: 'POST',
+      data,
+    });
   }
 }
