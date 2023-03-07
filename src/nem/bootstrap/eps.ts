@@ -3,46 +3,39 @@ import { BaseService, service, IBaseServiceProtoType } from '../service';
 import { Data, toCamel } from '../utils';
 import { isEmpty, isArray } from 'lodash-es';
 
-type LocalEps = {
-  prefix: string;
-  name: string;
-  api: {
-    method: string | undefined;
-    path: string;
-  }[];
-}[];
+type LocalEpsJson = [string, string, [string, string?][]][];
 
 interface EpsService {
-  module: string;
+  module?: string;
   prefix: string;
   name?: string;
-  columns: {
+  columns?: {
     propertyName: string;
     type: string;
     length: string;
     comment: string;
     nullable: boolean;
   }[];
-  api: {
-    name: string;
-    method: string;
+  api?: {
+    name?: string;
+    method?: string;
     path: string;
-    summary: string;
-    dts: {
-      parameters: {
-        description: string;
-        schema: {
+    summary?: string;
+    dts?: {
+      parameters?: {
+        description?: string;
+        schema?: {
           type: string;
         };
-        name: string;
-        required: boolean;
+        name?: string;
+        required?: boolean;
       }[];
     };
   }[];
 }
 
-interface FetchedEps {
-  [module: string]: EpsService[];
+interface Eps {
+  [key: string]: EpsService[];
 }
 
 type Constructor<T> = new (...args: unknown[]) => {
@@ -74,55 +67,159 @@ const propertyNames =
 // 创建
 export async function createEps(){
   // 创建描述文件
-  const createDts = () => {
+  const createDts = (epsServices: EpsService[]) => {
+    if (!isDev) {
+      return false;
+    }
 
+    const deep = (service) => { 
+      for (const property in service) {
+        if (service[property].namespace) {
+          // 模块
+          const item = epsServices.find((epsService) => epsService.prefix.includes(service));
+        } else {
+          deep(service[property]);
+        }
+      }
+    };
+
+    deep(service);
+
+    // 本地服务
+    return service.request({
+      url: '/__cool_eps',
+      method: 'POST',
+      proxy: false,
+      data: {
+        service,
+        epsServices,
+      },
+    });
   };
 
   // 设置
-  const setEps = async (eps: LocalEps | FetchedEps) => {
-    const formatedEps = [];
+  const setEps = async (eps: Eps) => {
+    const formatedEps: EpsService[] = [];
 
-    const objEps = isArray(eps) ? { eps } : eps;
-
-    for (const propertyName in objEps) {
+    for (const moduleName in eps) {
       // module level
-      if (isArray(objEps[propertyName])) {
-        objEps[propertyName].forEach((service: EpsService) => {
+      if (isArray(eps[moduleName])) {
+        eps[moduleName].forEach((epsService: EpsService) => {
           // service level
           // 分隔路径
-          const camelPrefix = service.prefix
+          const directories = epsService.prefix
             .replace(/\//, '')
             .replace('admin', '')
             .split('/')
             .filter(Boolean)
             .map(toCamel);
-          
-          // 遍历
-          const deep = (service: ) => { 
 
+          // 遍历
+          const deep = (service, i: number) => {
+            const directory = directories[i];
+
+            if (directory) {
+              // 是否是最后一层目录
+              if (directories[i + 1]) {
+                // 不是最后一层目录
+                if (!service[directory]) {
+                  service[directory] = {};
+                }
+
+                deep(service[directory], i + 1);
+              } else {
+                // 最后一层目录
+                // 本地不存在则创建实例
+                if (!service[directory]) { 
+                  service[directory] = new BaseService({
+                    namespace: epsService.prefix.substring(
+                      1,
+                      epsService.prefix.length - 1,
+                    ),
+                  });
+                }
+
+                // 创建方法
+                epsService.api?.forEach((api) => {
+                  // 方法名
+                  const name = api.path.replace('/', '');
+
+                  // 过滤
+                  if (!propertyNames.includes(name)) {
+                    // 不存在属性则创建
+                    if (!service[directory][name]) {
+                      if (name && !/[-:]/g.test(name)) {
+                        service[directory][name] = function (data: unknown) {
+                          return this.request({
+                            url: api.path,
+                            method: api.method,
+                            [api.method?.toLocaleLowerCase() === 'post'
+                              ? 'data'
+                              : 'params']: data,
+                          });
+                        };
+                      }
+                    }
+                  }
+                });
+
+                // 创建权限
+                if (!service[directory].permission) {
+                  service[directory].permission = {};
+
+                  const properties = Array.from(
+                    new Set([
+                      ...propertyNames,
+                      ...getPropertyNames(service[directory] as unknown as InstanceType<
+                          Constructor<IBaseServiceProtoType['prototype']>
+                        >,
+                      ),
+                    ]),
+                  );
+
+                  properties.forEach((property) => {
+                    service[directory].permission[property] = `${service[
+                      directory
+                    ].namespace.replace('admin/', '')}/${property}`.replace(
+                      /\//g,
+                      ':',
+                    );
+                  });
+                }
+
+                formatedEps.push(epsService);
+              }
+            }
           };
+
+          deep(service, 0);
         });
       }
     }
+
+    // 缓存数据
+    Data.set('service', service);
+
+    createDts(formatedEps);
   };
 
   // 获取
-  type LocalEpsJson = [string, string, [string, string?][]][];
-
   const getEps = async () => {
     try {
-      let eps: LocalEps | FetchedEps;
+      let eps: Eps;
       // 本地数据
-      eps = (JSON.parse(__EPS__ || '[]') as LocalEpsJson).map(
-        ([prefix, name, api]) => ({
-          prefix,
-          name,
-          api: api.map(([path, method]) => ({
-            method,
-            path,
-          })),
-        }),
-      );
+      eps = {
+        eps: (JSON.parse(__EPS__ || '[]') as LocalEpsJson).map(
+          ([prefix, name, api]) => ({
+            prefix,
+            name,
+            api: api.map(([path, method]) => ({
+              method,
+              path,
+            })),
+          }),
+        ),
+      };
 
       // 接口数据
       if (isDev && config.test.eps) {
@@ -132,7 +229,7 @@ export async function createEps(){
           })
           .then((res) => {
             if (!isEmpty(res)) {
-              eps = res as unknown as FetchedEps;
+              eps = res as unknown as Eps;
             }
           });
       }
