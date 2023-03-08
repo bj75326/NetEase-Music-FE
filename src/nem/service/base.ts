@@ -1,7 +1,7 @@
 import { isDev, config, proxy } from '/@/nem';
 import { isObject } from 'lodash-es';
 import { request } from './request';
-import { AxiosRequestConfig } from 'axios';
+import { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 export function Service(
   value:
@@ -64,7 +64,9 @@ export class BaseService {
 
   proxy?: string;
 
-  request<D>(options: AxiosRequestConfig<D> = {}) {
+  request<D>(
+    options: AxiosRequestConfig<D> = {},
+  ): Promise<AxiosResponse<unknown, unknown>> {
     if (!options.params) options.params = {};
 
     let namespace: string | undefined = '';

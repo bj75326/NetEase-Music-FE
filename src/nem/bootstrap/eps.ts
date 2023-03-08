@@ -2,6 +2,7 @@ import { isDev, config } from '../config';
 import { BaseService, service, IBaseServiceProtoType } from '../service';
 import { Data, toCamel } from '../utils';
 import { isEmpty, isArray } from 'lodash-es';
+import { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 type LocalEpsJson = [string, string, [string, string?][]][];
 
@@ -98,7 +99,7 @@ export async function createEps(){
   };
 
   // 设置
-  const setEps = async (eps: Eps) => {
+  const setEps = (eps: Eps) => {
     const formatedEps: EpsService[] = [];
 
     for (const moduleName in eps) {
