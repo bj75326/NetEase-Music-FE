@@ -3,7 +3,7 @@ import { isObject } from 'lodash-es';
 import { request } from './request';
 import { AxiosRequestConfig, AxiosResponse } from 'axios';
 
-export function Service(
+export function ServiceDecorator(
   value:
     | string
     | {

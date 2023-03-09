@@ -1,8 +1,13 @@
 import { isDev, config } from '../config';
-import { BaseService, service, IBaseServiceProtoType } from '../service';
+import {
+  BaseService,
+  service,
+  IBaseServiceProtoType,
+  Service,
+  ExpandedBaseService,
+} from '../service';
 import { Data, toCamel } from '../utils';
 import { isEmpty, isArray } from 'lodash-es';
-import { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 type LocalEpsJson = [string, string, [string, string?][]][];
 
@@ -66,37 +71,9 @@ const propertyNames =
   getPropertyNames<IBaseServiceProtoType['prototype']>(baseService);
 
 // 创建
-export async function createEps(){
-  // 创建描述文件
-  const createDts = (epsServices: EpsService[]) => {
-    if (!isDev) {
-      return false;
-    }
-
-    const deep = (service) => { 
-      for (const property in service) {
-        if (service[property].namespace) {
-          // 模块
-          const item = epsServices.find((epsService) => epsService.prefix.includes(service));
-        } else {
-          deep(service[property]);
-        }
-      }
-    };
-
-    deep(service);
-
-    // 本地服务
-    return service.request({
-      url: '/__cool_eps',
-      method: 'POST',
-      proxy: false,
-      data: {
-        service,
-        epsServices,
-      },
-    });
-  };
+export async function createEps() {
+  // 创建描述文件(暂时弃用)
+  // const createDts = () => {}
 
   // 设置
   const setEps = (eps: Eps) => {
@@ -116,7 +93,7 @@ export async function createEps(){
             .map(toCamel);
 
           // 遍历
-          const deep = (service, i: number) => {
+          const deep = (service: Service, i: number) => {
             const directory = directories[i];
 
             if (directory) {
@@ -127,17 +104,17 @@ export async function createEps(){
                   service[directory] = {};
                 }
 
-                deep(service[directory], i + 1);
+                deep(service[directory] as Service, i + 1);
               } else {
                 // 最后一层目录
                 // 本地不存在则创建实例
-                if (!service[directory]) { 
+                if (!service[directory]) {
                   service[directory] = new BaseService({
                     namespace: epsService.prefix.substring(
                       1,
                       epsService.prefix.length - 1,
                     ),
-                  });
+                  }) as ExpandedBaseService;
                 }
 
                 // 创建方法
@@ -148,30 +125,32 @@ export async function createEps(){
                   // 过滤
                   if (!propertyNames.includes(name)) {
                     // 不存在属性则创建
-                    if (!service[directory][name]) {
+                    if (!(service[directory] as ExpandedBaseService)[name]) {
                       if (name && !/[-:]/g.test(name)) {
-                        service[directory][name] = function (data: unknown) {
-                          return this.request({
-                            url: api.path,
-                            method: api.method,
-                            [api.method?.toLocaleLowerCase() === 'post'
-                              ? 'data'
-                              : 'params']: data,
-                          });
-                        };
+                        (service[directory] as ExpandedBaseService)[name] =
+                          function (data: unknown) {
+                            return this.request({
+                              url: api.path,
+                              method: api.method,
+                              [api.method?.toLocaleLowerCase() === 'post'
+                                ? 'data'
+                                : 'params']: data,
+                            });
+                          };
                       }
                     }
                   }
                 });
 
                 // 创建权限
-                if (!service[directory].permission) {
-                  service[directory].permission = {};
+                if (!(service[directory] as ExpandedBaseService).permission) {
+                  (service[directory] as ExpandedBaseService).permission = {};
 
                   const properties = Array.from(
                     new Set([
                       ...propertyNames,
-                      ...getPropertyNames(service[directory] as unknown as InstanceType<
+                      ...getPropertyNames(
+                        service[directory] as unknown as InstanceType<
                           Constructor<IBaseServiceProtoType['prototype']>
                         >,
                       ),
@@ -179,12 +158,14 @@ export async function createEps(){
                   );
 
                   properties.forEach((property) => {
-                    service[directory].permission[property] = `${service[
+                    (service[directory] as ExpandedBaseService).permission![
+                      property
+                    ] = `${(service[
                       directory
-                    ].namespace.replace('admin/', '')}/${property}`.replace(
-                      /\//g,
-                      ':',
-                    );
+                    ] as ExpandedBaseService)!.namespace!.replace(
+                      'admin/',
+                      '',
+                    )}/${property}`.replace(/\//g, ':');
                   });
                 }
 
@@ -200,8 +181,9 @@ export async function createEps(){
 
     // 缓存数据
     Data.set('service', service);
+    console.log('######service', service);
 
-    createDts(formatedEps);
+    // createDts(formatedEps);
   };
 
   // 获取

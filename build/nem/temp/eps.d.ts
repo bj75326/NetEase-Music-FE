@@ -27,7 +27,7 @@ declare namespace Eps {
     /**
      * 任意键值
      */
-    [key: string]: any;
+    [key: string]: boolean;
   }
 
   interface BaseSysLogEntity {
