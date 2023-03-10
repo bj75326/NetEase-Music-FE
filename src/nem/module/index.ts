@@ -5,25 +5,25 @@ import { Data } from '../utils';
 export interface ModuleConfig {
   order?: number;
   options?: {
-    [key: string]: any;
+    [key: string]: unknown;
   };
   components?: Component[];
   views?: RouteRecordRaw[];
   pages?: RouteRecordRaw[];
-  install?(app: any, options?: any): any;
+  install?(app: unknown, options?: unknown): unknown;
   onLoad?(events: {
-    hasToken: (cb: () => Promise<any> | void) => Promise<any> | void;
-    [key: string]: any;
-  }): Promise<{ [key: string]: any }> | Promise<void> | void;
+    hasToken: (cb: () => Promise<unknown> | void) => Promise<unknown> | void;
+    [key: string]: unknown;
+  }): Promise<{ [key: string]: unknown }> | Promise<void> | void;
 }
 
 export interface Module extends ModuleConfig {
   name: string;
   options: {
-    [key: string]: any;
+    [key: string]: unknown;
   };
-  value?: any;
-  services?: { path: string; value: string }[];
+  value?: unknown;
+  services?: { path: string; value: unknown }[];
   directives?: { name: string; value: Directive }[];
 }
 

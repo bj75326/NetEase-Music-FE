@@ -145,6 +145,21 @@ export const toCamel = (str: string): string => {
   );
 };
 
+// 文件名
+export const filename = (path: string): string => {
+  return basename(path.substring(0, path.lastIndexOf('.')));
+};
+
+// 路径名称
+export const basename = (path: string): string => {
+  let index = path.lastIndexOf('/');
+  index = index > -1 ? index : path.lastIndexOf('\\');
+  if (index < 0) {
+    return path;
+  }
+  return path.substring(index + 1);
+};
+
 export { storage };
 export * from './loading';
 export * from './data';

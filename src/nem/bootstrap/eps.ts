@@ -44,7 +44,7 @@ interface Eps {
   [key: string]: EpsService[];
 }
 
-type Constructor<T> = new (...args: unknown[]) => {
+export type Constructor<T> = new (...args: unknown[]) => {
   constructor: Constructor<T>;
   [key: string]: unknown;
 } & { prototype: T };
@@ -206,15 +206,13 @@ export async function createEps() {
 
       // 接口数据
       if (isDev && config.test.eps) {
-        await service
-          .request({
-            url: '/admin/base/open/eps',
-          })
-          .then((res) => {
-            if (!isEmpty(res)) {
-              eps = res as unknown as Eps;
-            }
-          });
+        await service.request!({
+          url: '/admin/base/open/eps',
+        }).then((res) => {
+          if (!isEmpty(res)) {
+            eps = res as unknown as Eps;
+          }
+        });
       }
 
       if (eps) {
