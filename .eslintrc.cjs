@@ -29,5 +29,14 @@ module.exports = {
     "@typescript-eslint/no-unsafe-return": 1,
     "@typescript-eslint/no-unsafe-assignment": 1,
     "@typescript-eslint/no-non-null-assertion": 0,
+    "@typescript-eslint/no-misused-promises": [
+      "error",
+      {
+        "checksVoidReturn": {
+          "arguments": false,
+          "attributes": false
+        }
+      }
+    ]
   }
 }

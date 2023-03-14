@@ -1,5 +1,7 @@
 import {  } from 'lodash-es';
 import storage from './storage';
+import { Module } from '../module';
+import { Service } from '../service';
 
 // 深度合并
 export const deepMerge = (
@@ -158,6 +160,31 @@ export const basename = (path: string): string => {
     return path;
   }
   return path.substring(index + 1);
+};
+
+// 合并 service
+export const mergeService = (services: Module['services'] = []) => {
+  const data: Service = {};
+
+  services.forEach(({ path, value }) => {
+    const arr = path.split('/');
+    const directories = arr.slice(0, arr.length - 1);
+    const name = basename(path).replace('.ts', '');
+
+    let curr = data;
+
+    directories.forEach((directory) => {
+      if (!curr[directory]) {
+        curr[directory] = {};
+      }
+
+      curr = curr[directory] as unknown as { [key: string]: undefined };
+    });
+
+    curr[name] = value;
+  });
+
+  return data;
 };
 
 export { storage };

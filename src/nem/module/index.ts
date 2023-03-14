@@ -1,16 +1,21 @@
-import { Component, Directive } from 'vue';
+import { Component, Directive, App } from 'vue';
 import { RouteRecordRaw } from 'vue-router';
 import { Data } from '../utils';
+import { BaseService, IBaseServiceProtoType } from '../service';
 
 export interface ModuleConfig {
   order?: number;
   options?: {
     [key: string]: unknown;
   };
-  components?: Component[];
+  components?: (
+    | Component
+    | (() => Promise<Component | { default: Component }>)
+    | Promise<Component | { default: Component }>
+  )[];
   views?: RouteRecordRaw[];
   pages?: RouteRecordRaw[];
-  install?(app: unknown, options?: unknown): unknown;
+  install?(app: App, options?: ModuleConfig['options']): unknown;
   onLoad?(events: {
     hasToken: (cb: () => Promise<unknown> | void) => Promise<unknown> | void;
     [key: string]: unknown;
@@ -22,8 +27,8 @@ export interface Module extends ModuleConfig {
   options: {
     [key: string]: unknown;
   };
-  value?: unknown;
-  services?: { path: string; value: unknown }[];
+  value?: ((app?: App) => ModuleConfig) | ModuleConfig;
+  services?: { path: string; value: BaseService & IBaseServiceProtoType }[];
   directives?: { name: string; value: Directive }[];
 }
 
