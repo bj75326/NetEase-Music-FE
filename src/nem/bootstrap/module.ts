@@ -1,7 +1,7 @@
 import { Directive, App, Component } from 'vue';
 import { module, Module, ModuleConfig } from '../module';
 import { BaseService, IBaseServiceProtoType } from '../service';
-import { Data, filename, deepMerge } from '../utils';
+import { Data, filename, deepMerge, mergeService } from '../utils';
 import { isFunction, orderBy } from 'lodash-es';
 import { service } from '../service';
 
@@ -80,7 +80,7 @@ for (const filePath in files) {
 // 创建
 export const createModule = (app: App) => {
   // 模块加载
-  const list = orderBy(module.list, 'order').map((module) => {
+  const modules = orderBy(module.list, 'order').map((module) => {
     const config = isFunction(module.value) ? module.value(app) : module.value;
 
     if (config) {
@@ -111,5 +111,25 @@ export const createModule = (app: App) => {
 
     // 合并 service
     deepMerge(service, mergeService(module.services || []));
+
+    return module;
   });
+
+  return {
+    // 事件加载
+    async eventLoop() {
+      const events: {
+        hasToken?: (
+          cb: () => Promise<unknown> | void,
+        ) => Promise<unknown> | void;
+        [key: string]: unknown;
+      } = {};
+
+      for (let i = 0; i < modules.length; i++) {
+        if (modules[i].onLoad) {
+          Object.assign(events, await modules[i].onLoad!(events));
+        }
+      }
+    },
+  };
 };

@@ -37,6 +37,7 @@ module.exports = {
           "attributes": false
         }
       }
-    ]
+    ],
+    "@typescript-eslint/unbound-method": 0,
   }
 }

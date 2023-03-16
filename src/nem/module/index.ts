@@ -17,7 +17,7 @@ export interface ModuleConfig {
   pages?: RouteRecordRaw[];
   install?(app: App, options?: ModuleConfig['options']): unknown;
   onLoad?(events: {
-    hasToken: (cb: () => Promise<unknown> | void) => Promise<unknown> | void;
+    hasToken?: (cb: () => Promise<unknown> | void) => Promise<unknown> | void;
     [key: string]: unknown;
   }): Promise<{ [key: string]: unknown }> | Promise<void> | void;
 }

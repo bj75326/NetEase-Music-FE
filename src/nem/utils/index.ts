@@ -1,7 +1,7 @@
 import {  } from 'lodash-es';
 import storage from './storage';
 import { Module } from '../module';
-import { Service } from '../service';
+import { ExpandedBaseService, Service } from '../service';
 
 // 深度合并
 export const deepMerge = (
@@ -181,7 +181,7 @@ export const mergeService = (services: Module['services'] = []) => {
       curr = curr[directory] as unknown as { [key: string]: undefined };
     });
 
-    curr[name] = value;
+    curr[name] = value as ExpandedBaseService;
   });
 
   return data;
