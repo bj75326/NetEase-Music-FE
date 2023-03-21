@@ -72,12 +72,71 @@ const propertyNames =
 
 // 创建
 export async function createEps() {
-  // 创建描述文件(暂时弃用)
-  // const createDts = () => {}
+  // 创建描述文件
+  const createDts = async (serviceList: EpsService[]) => {
+    if (!isDev) {
+      return false;
+    }
+
+    const deep = (service: Service) => {
+      for (const directory in service) {
+        if ((service[directory] as BaseService)?.namespace) {
+          // epsService
+          const epsService = serviceList.find((epsService: EpsService) =>
+            epsService.prefix.includes(
+              (service[directory] as BaseService).namespace!,
+            ),
+          );
+
+          // api
+          const api = epsService ? epsService.api : [];
+
+          // 获取方法合集
+          [
+            ...propertyNames,
+            ...getPropertyNames<IBaseServiceProtoType['prototype']>(
+              service[directory] as unknown as InstanceType<
+                Constructor<IBaseServiceProtoType['prototype']>
+              >,
+            ),
+          ].forEach((propertyName) => {
+            if (!api?.find((a) => a.path.includes(propertyName))) {
+              api!.push({
+                path: `/${propertyName}`,
+              });
+            }
+          });
+
+          if (epsService) {
+            epsService.api = api;
+          } else {
+            serviceList.push({
+              prefix: `/${(service[directory] as BaseService).namespace!}`,
+              api,
+            });
+          }
+        } else {
+          deep(service[directory] as Service);
+        }
+      }
+    };
+
+    deep(service);
+
+    // 本地服务
+    return service.request!({
+      url: '/__nem_eps',
+      method: 'POST',
+      proxy: false,
+      data: {
+        list: serviceList,
+      },
+    });
+  };
 
   // 设置
-  const setEps = (eps: Eps) => {
-    const formatedEps: EpsService[] = [];
+  const setEps = async (eps: Eps) => {
+    const serviceList: EpsService[] = [];
 
     for (const moduleName in eps) {
       // module level
@@ -169,7 +228,7 @@ export async function createEps() {
                   });
                 }
 
-                formatedEps.push(epsService);
+                serviceList.push(epsService);
               }
             }
           };
@@ -183,7 +242,7 @@ export async function createEps() {
     Data.set('service', service);
     console.log('######service', service);
 
-    // createDts(formatedEps);
+    await createDts(serviceList);
   };
 
   // 获取
@@ -216,7 +275,7 @@ export async function createEps() {
       }
 
       if (eps) {
-        setEps(eps);
+        await setEps(eps);
       }
     } catch (error) {
       console.log('[Eps] 获取失败', error);

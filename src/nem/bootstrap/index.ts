@@ -23,5 +23,5 @@ export async function bootstrap(app: App) {
   await createEps();
 
   // 加载
-  Loading.set();
+  void Loading.set([eventLoop()]);
 }

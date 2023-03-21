@@ -1,7 +1,7 @@
 export const Loading: {
   resolve: ((value: unknown) => void) | null;
   next: Promise<unknown> | null;
-  set: (list: any[]) => Promise<void>;
+  set: (list: Promise<unknown>[]) => Promise<void>;
   wait: () => Promise<any>;
   close: () => void;
 } = {
@@ -11,7 +11,7 @@ export const Loading: {
   // Promise 对象
   next: null,
 
-  async set(list: unknown[]) {
+  async set(list: Promise<unknown>[]) {
     try {
       await Promise.all(list);
     } catch (e) {}

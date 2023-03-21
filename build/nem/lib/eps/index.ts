@@ -1,123 +1,63 @@
-import { } from 'lodash-es';
 import { readFile } from '../../utils';
 import { join } from 'path';
-import config from './config';
+import { createWriteStream } from 'fs';
 
-interface Options {
+export interface Options {
   list: {
+    module?: string;
     prefix: string;
-    name: string;
-    columns: {
+    name?: string;
+    columns?: {
       propertyName: string;
       type: string;
       length: string;
       comment: string;
       nullable: boolean;
     }[];
-    api: {
-      name: string;
-      method: string;
+    api?: {
+      name?: string;
+      method?: string;
       path: string;
-      summary: string;
-      dts: {
-        parameters: {
-          description: string;
-          schema: {
+      summary?: string;
+      dts?: {
+        parameters?: {
+          description?: string;
+          schema?: {
             type: string;
           };
-          name: string;
-          required: boolean;
+          name?: string;
+          required?: boolean;
         }[];
       };
     }[];
   }[];
-  service: {
-    [key: string]: unknown;
-  };
 }
 
 // 临时目录路径
 const tempPath = join(__dirname, '../../temp');
 
-// 获取类型
-const getType = ({
-  entityName,
-  propertyName,
-  type,
-}: {
-  entityName: string;
-  propertyName: string;
-  type: string;
-}): string => {
-  for (const map of config.entity.mapping) {
-    if (map.custom) {
-      const resType = map.custom({ entityName, propertyName, type });
-      if (resType) return resType;
-    }
-    if (map.test) {
-      if (map.test.includes(type)) return map.type;
-    }
-  }
-  return type;
-};
+// 创建描述文件
+// eslint-disable-next-line @typescript-eslint/require-await
+export const createEps = async (options: Options) => {
+  createWriteStream(join(tempPath, 'eps.json'), {
+    flags: 'w',
+  }).write(
+    JSON.stringify(
+      (options.list || []).map((epsService) => {
+        const req = epsService.api?.map((api) => {
+          const arr = [api.name ? `/${api.name}` : api.path];
 
-const createEntity = ({ list }: Options) => { 
-  const entityFragment: string[][] = [];
+          if (api.method) {
+            arr.push(api.method);
+          }
 
-  for (const item of list) {
-    if (!item.name) continue;
-    const fragment = [`interface ${item.name} {`];
-    for (const col of item.columns || []) {
-      // 描述
-      fragment.push('\n');
-      fragment.push('/**\n');
-      fragment.push(` * ${col.comment}\n`);
-      fragment.push(' */\n');
-      fragment.push(
-        `${col.propertyName}?: ${getType({
-          entityName: item.name,
-          propertyName: col.propertyName,
-          type: col.type,
-        })}`,
-      );
-    }
-    fragment.push('\n');
-    fragment.push('/**\n');
-    fragment.push(` * 任意键值\n`);
-    fragment.push(' */\n');
-    fragment.push(`[key: string]: any;`);
-    fragment.push('}');
+          return arr;
+        });
 
-    entityFragment.push(fragment);
-  }
-
-  return entityFragment.map((fragment) => fragment.join('')).join('\n\n');
-};
-
-const createService = ({ list, service }: Options) => {
-  const serviceFragment: string[][] = [];
-
-  const fragment = [
-    `type Service = {
-			request(options: {
-				url: string;
-				method?: 'POST' | 'GET' | string;
-				data?: any;
-				params?: any;
-				proxy?: boolean;
-				[key: string]: any;
-			}): Promise<any>;
-		`,
-  ];
-
-  // 处理数据
-  // const deep = (service: Options["service"], k?: string) => { 
-  //   if (!k) k = '';
-
-  //   for (const i in service){
-      
-  //   }
-  // };
+        return [epsService.prefix, epsService.name || '', req];
+      }),
+    ),
+  );
 };
 
 // 获取描述
