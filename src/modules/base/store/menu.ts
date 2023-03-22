@@ -1,10 +1,9 @@
 import { showFailToast } from 'vant';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
-import { storage, service } from '/@/nem';
+import { storage, service, ExpandedBaseService, Service } from '/@/nem';
 import { RouteComponent } from 'vue-router';
 
-// eslint-disable-next-line @typescript-eslint/no-namespace
 export declare namespace Menu {
   enum Type {
     '目录' = 0,
@@ -59,17 +58,29 @@ export const useMenuStore = defineStore('menu', () => {
   // 设置左侧菜单
 
   // 设置权限
-  const setPerms = (list: string[]) => { 
-    const deep = (d: any) => { 
-      if (typeof d === 'object') {
-        if (d.permission) {
-          d._permission = {};
-          for (const i in d.permission) {
-            d._permission[i] =   
+  const setPerms = (list: string[]) => {
+    const deep = (service: Service | ExpandedBaseService) => {
+      if (typeof service === 'object') {
+        if (service.permission) {
+          const expandedBaseService: ExpandedBaseService =
+            service as ExpandedBaseService;
+          expandedBaseService._permission = {};
+          for (const i in expandedBaseService.permission) {
+            expandedBaseService._permission[i] =
+              list.findIndex((perm: string) => {
+                perm
+                  .replace(/:/g, '/')
+                  .includes(
+                    `${expandedBaseService.namespace!.replace(
+                      'admin/',
+                      '',
+                    )}/${i}`,
+                  );
+              }) >= 0;
           }
-        } else { 
-          for (const i in d){
-            deep(d[i]);    
+        } else {
+          for (const i in service) {
+            deep(service[i] as Service);
           }
         }
       }
