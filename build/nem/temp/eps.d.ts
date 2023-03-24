@@ -66,7 +66,7 @@ declare namespace Eps {
     /**
      * 任意键值
      */
-    [key: string]: any;
+    [key: string]: unknown;
   }
 
   interface BaseSysMenuEntity {
@@ -125,7 +125,7 @@ declare namespace Eps {
     /**
      * 任意键值
      */
-    [key: string]: any;
+    [key: string]: unknown;
   }
 
   interface BaseSysParamEntity {
@@ -164,7 +164,7 @@ declare namespace Eps {
     /**
      * 任意键值
      */
-    [key: string]: any;
+    [key: string]: unknown;
   }
 
   interface BaseSysRoleEntity {
@@ -203,7 +203,7 @@ declare namespace Eps {
     /**
      * 任意键值
      */
-    [key: string]: any;
+    [key: string]: unknown;
   }
 
   interface BaseSysUserEntity {
@@ -270,7 +270,7 @@ declare namespace Eps {
     /**
      * 任意键值
      */
-    [key: string]: any;
+    [key: string]: unknown;
   }
 
   interface DemoGoodsEntity {
@@ -305,7 +305,7 @@ declare namespace Eps {
     /**
      * 任意键值
      */
-    [key: string]: any;
+    [key: string]: unknown;
   }
 
   interface DictInfoEntity {
@@ -344,7 +344,7 @@ declare namespace Eps {
     /**
      * 任意键值
      */
-    [key: string]: any;
+    [key: string]: unknown;
   }
 
   interface DictTypeEntity {
@@ -371,7 +371,7 @@ declare namespace Eps {
     /**
      * 任意键值
      */
-    [key: string]: any;
+    [key: string]: unknown;
   }
 
   interface SpaceInfoEntity {
@@ -402,7 +402,7 @@ declare namespace Eps {
     /**
      * 任意键值
      */
-    [key: string]: any;
+    [key: string]: unknown;
   }
 
   interface SpaceTypeEntity {
@@ -429,7 +429,7 @@ declare namespace Eps {
     /**
      * 任意键值
      */
-    [key: string]: any;
+    [key: string]: unknown;
   }
 
   interface TaskInfoEntity {
@@ -508,38 +508,38 @@ declare namespace Eps {
     /**
      * 任意键值
      */
-    [key: string]: any;
+    [key: string]: unknown;
   }
 
   interface ChatMessage {
     /**
      * list
      */
-    list(data?: any): Promise<any[]>;
+    list(data?: unknown): Promise<unknown[]>;
     /**
      * page
      */
-    page(data?: any): Promise<{
+    page(data?: unknown): Promise<{
       pagination: { size: number; page: number; total: number };
-      list: any[];
-      [key: string]: any;
+      list: unknown[];
+      [key: string]: unknown;
     }>;
     /**
      * info
      */
-    info(data?: any): Promise<any>;
+    info(data?: unknown): Promise<any>;
     /**
      * update
      */
-    update(data?: any): Promise<any>;
+    update(data?: unknown): Promise<any>;
     /**
      * delete
      */
-    delete(data?: any): Promise<any>;
+    delete(data?: unknown): Promise<any>;
     /**
      * add
      */
-    add(data?: any): Promise<any>;
+    add(data?: unknown): Promise<any>;
     /**
      * 权限标识
      */
@@ -572,31 +572,31 @@ declare namespace Eps {
     /**
      * list
      */
-    list(data?: any): Promise<any[]>;
+    list(data?: unknown): Promise<unknown[]>;
     /**
      * page
      */
-    page(data?: any): Promise<{
+    page(data?: unknown): Promise<{
       pagination: { size: number; page: number; total: number };
-      list: any[];
-      [key: string]: any;
+      list: unknown[];
+      [key: string]: unknown;
     }>;
     /**
      * info
      */
-    info(data?: any): Promise<any>;
+    info(data?: unknown): Promise<any>;
     /**
      * update
      */
-    update(data?: any): Promise<any>;
+    update(data?: unknown): Promise<any>;
     /**
      * delete
      */
-    delete(data?: any): Promise<any>;
+    delete(data?: unknown): Promise<any>;
     /**
      * add
      */
-    add(data?: any): Promise<any>;
+    add(data?: unknown): Promise<any>;
     /**
      * 权限标识
      */
@@ -629,31 +629,31 @@ declare namespace Eps {
     /**
      * list
      */
-    list(data?: any): Promise<any[]>;
+    list(data?: unknown): Promise<unknown[]>;
     /**
      * page
      */
-    page(data?: any): Promise<{
+    page(data?: unknown): Promise<{
       pagination: { size: number; page: number; total: number };
-      list: any[];
-      [key: string]: any;
+      list: unknown[];
+      [key: string]: unknown;
     }>;
     /**
      * info
      */
-    info(data?: any): Promise<any>;
+    info(data?: unknown): Promise<any>;
     /**
      * update
      */
-    update(data?: any): Promise<any>;
+    update(data?: unknown): Promise<any>;
     /**
      * delete
      */
-    delete(data?: any): Promise<any>;
+    delete(data?: unknown): Promise<any>;
     /**
      * add
      */
-    add(data?: any): Promise<any>;
+    add(data?: unknown): Promise<any>;
     /**
      * 权限标识
      */
@@ -686,55 +686,55 @@ declare namespace Eps {
     /**
      * 修改个人信息
      */
-    personUpdate(data?: any): Promise<any>;
+    personUpdate(data?: unknown): Promise<any>;
     /**
      * 文件上传模式
      */
-    uploadMode(data?: any): Promise<any>;
+    uploadMode(data?: unknown): Promise<any>;
     /**
      * 权限与菜单
      */
-    permmenu(data?: any): Promise<any>;
+    permmenu(data?: unknown): Promise<any>;
     /**
      * 个人信息
      */
-    person(data?: any): Promise<any>;
+    person(data?: unknown): Promise<any>;
     /**
      * 文件上传
      */
-    upload(data?: any): Promise<any>;
+    upload(data?: unknown): Promise<any>;
     /**
      * 退出
      */
-    logout(data?: any): Promise<any>;
+    logout(data?: unknown): Promise<any>;
     /**
      * list
      */
-    list(data?: any): Promise<any[]>;
+    list(data?: unknown): Promise<unknown[]>;
     /**
      * page
      */
-    page(data?: any): Promise<{
+    page(data?: unknown): Promise<{
       pagination: { size: number; page: number; total: number };
-      list: any[];
-      [key: string]: any;
+      list: unknown[];
+      [key: string]: unknown;
     }>;
     /**
      * info
      */
-    info(data?: any): Promise<any>;
+    info(data?: unknown): Promise<any>;
     /**
      * update
      */
-    update(data?: any): Promise<any>;
+    update(data?: unknown): Promise<any>;
     /**
      * delete
      */
-    delete(data?: any): Promise<any>;
+    delete(data?: unknown): Promise<any>;
     /**
      * add
      */
-    add(data?: any): Promise<any>;
+    add(data?: unknown): Promise<any>;
     /**
      * 权限标识
      */
@@ -779,51 +779,51 @@ declare namespace Eps {
     /**
      * 刷新token
      */
-    refreshToken(data?: any): Promise<any>;
+    refreshToken(data?: unknown): Promise<any>;
     /**
      * 验证码
      */
-    captcha(data?: any): Promise<any>;
+    captcha(data?: unknown): Promise<any>;
     /**
      * 登录
      */
-    login(data?: any): Promise<any>;
+    login(data?: unknown): Promise<any>;
     /**
      * 获得网页内容的参数值
      */
-    html(data?: any): Promise<any>;
+    html(data?: unknown): Promise<any>;
     /**
      * 实体信息与路径
      */
-    eps(data?: any): Promise<any>;
+    eps(data?: unknown): Promise<any>;
     /**
      * list
      */
-    list(data?: any): Promise<any[]>;
+    list(data?: unknown): Promise<unknown[]>;
     /**
      * page
      */
-    page(data?: any): Promise<{
+    page(data?: unknown): Promise<{
       pagination: { size: number; page: number; total: number };
-      list: any[];
-      [key: string]: any;
+      list: unknown[];
+      [key: string]: unknown;
     }>;
     /**
      * info
      */
-    info(data?: any): Promise<any>;
+    info(data?: unknown): Promise<any>;
     /**
      * update
      */
-    update(data?: any): Promise<any>;
+    update(data?: unknown): Promise<any>;
     /**
      * delete
      */
-    delete(data?: any): Promise<any>;
+    delete(data?: unknown): Promise<any>;
     /**
      * add
      */
-    add(data?: any): Promise<any>;
+    add(data?: unknown): Promise<any>;
     /**
      * 权限标识
      */
@@ -866,35 +866,35 @@ declare namespace Eps {
     /**
      * 删除
      */
-    delete(data?: any): Promise<any>;
+    delete(data?: unknown): Promise<any>;
     /**
      * 修改
      */
-    update(data?: any): Promise<any>;
+    update(data?: unknown): Promise<any>;
     /**
      * 排序
      */
-    order(data?: any): Promise<any>;
+    order(data?: unknown): Promise<any>;
     /**
      * 列表查询
      */
-    list(data?: any): Promise<BaseSysDepartmentEntity[]>;
+    list(data?: unknown): Promise<BaseSysDepartmentEntity[]>;
     /**
      * 新增
      */
-    add(data?: any): Promise<any>;
+    add(data?: unknown): Promise<any>;
     /**
      * page
      */
-    page(data?: any): Promise<{
+    page(data?: unknown): Promise<{
       pagination: { size: number; page: number; total: number };
       list: BaseSysDepartmentEntity[];
-      [key: string]: any;
+      [key: string]: unknown;
     }>;
     /**
      * info
      */
-    info(data?: any): Promise<BaseSysDepartmentEntity>;
+    info(data?: unknown): Promise<BaseSysDepartmentEntity>;
     /**
      * 权限标识
      */
@@ -929,43 +929,43 @@ declare namespace Eps {
     /**
      * 日志保存时间
      */
-    setKeep(data?: any): Promise<any>;
+    setKeep(data?: unknown): Promise<any>;
     /**
      * 获得日志保存时间
      */
-    getKeep(data?: any): Promise<any>;
+    getKeep(data?: unknown): Promise<any>;
     /**
      * 清理
      */
-    clear(data?: any): Promise<any>;
+    clear(data?: unknown): Promise<any>;
     /**
      * 分页查询
      */
-    page(data?: any): Promise<{
+    page(data?: unknown): Promise<{
       pagination: { size: number; page: number; total: number };
       list: BaseSysLogEntity[];
-      [key: string]: any;
+      [key: string]: unknown;
     }>;
     /**
      * list
      */
-    list(data?: any): Promise<BaseSysLogEntity[]>;
+    list(data?: unknown): Promise<BaseSysLogEntity[]>;
     /**
      * info
      */
-    info(data?: any): Promise<BaseSysLogEntity>;
+    info(data?: unknown): Promise<BaseSysLogEntity>;
     /**
      * update
      */
-    update(data?: any): Promise<any>;
+    update(data?: unknown): Promise<any>;
     /**
      * delete
      */
-    delete(data?: any): Promise<any>;
+    delete(data?: unknown): Promise<any>;
     /**
      * add
      */
-    add(data?: any): Promise<any>;
+    add(data?: unknown): Promise<any>;
     /**
      * 权限标识
      */
@@ -1004,31 +1004,31 @@ declare namespace Eps {
     /**
      * 删除
      */
-    delete(data?: any): Promise<any>;
+    delete(data?: unknown): Promise<any>;
     /**
      * 修改
      */
-    update(data?: any): Promise<any>;
+    update(data?: unknown): Promise<any>;
     /**
      * 单个信息
      */
-    info(data?: any): Promise<BaseSysMenuEntity>;
+    info(data?: unknown): Promise<BaseSysMenuEntity>;
     /**
      * 列表查询
      */
-    list(data?: any): Promise<BaseSysMenuEntity[]>;
+    list(data?: unknown): Promise<BaseSysMenuEntity[]>;
     /**
      * 分页查询
      */
-    page(data?: any): Promise<{
+    page(data?: unknown): Promise<{
       pagination: { size: number; page: number; total: number };
       list: BaseSysMenuEntity[];
-      [key: string]: any;
+      [key: string]: unknown;
     }>;
     /**
      * 新增
      */
-    add(data?: any): Promise<any>;
+    add(data?: unknown): Promise<any>;
     /**
      * 权限标识
      */
@@ -1061,35 +1061,35 @@ declare namespace Eps {
     /**
      * 删除
      */
-    delete(data?: any): Promise<any>;
+    delete(data?: unknown): Promise<any>;
     /**
      * 修改
      */
-    update(data?: any): Promise<any>;
+    update(data?: unknown): Promise<any>;
     /**
      * 获得网页内容的参数值
      */
-    html(data?: any): Promise<any>;
+    html(data?: unknown): Promise<any>;
     /**
      * 单个信息
      */
-    info(data?: any): Promise<BaseSysParamEntity>;
+    info(data?: unknown): Promise<BaseSysParamEntity>;
     /**
      * 分页查询
      */
-    page(data?: any): Promise<{
+    page(data?: unknown): Promise<{
       pagination: { size: number; page: number; total: number };
       list: BaseSysParamEntity[];
-      [key: string]: any;
+      [key: string]: unknown;
     }>;
     /**
      * 新增
      */
-    add(data?: any): Promise<any>;
+    add(data?: unknown): Promise<any>;
     /**
      * list
      */
-    list(data?: any): Promise<BaseSysParamEntity[]>;
+    list(data?: unknown): Promise<BaseSysParamEntity[]>;
     /**
      * 权限标识
      */
@@ -1124,31 +1124,31 @@ declare namespace Eps {
     /**
      * 删除
      */
-    delete(data?: any): Promise<any>;
+    delete(data?: unknown): Promise<any>;
     /**
      * 修改
      */
-    update(data?: any): Promise<any>;
+    update(data?: unknown): Promise<any>;
     /**
      * 单个信息
      */
-    info(data?: any): Promise<BaseSysRoleEntity>;
+    info(data?: unknown): Promise<BaseSysRoleEntity>;
     /**
      * 列表查询
      */
-    list(data?: any): Promise<BaseSysRoleEntity[]>;
+    list(data?: unknown): Promise<BaseSysRoleEntity[]>;
     /**
      * 分页查询
      */
-    page(data?: any): Promise<{
+    page(data?: unknown): Promise<{
       pagination: { size: number; page: number; total: number };
       list: BaseSysRoleEntity[];
-      [key: string]: any;
+      [key: string]: unknown;
     }>;
     /**
      * 新增
      */
-    add(data?: any): Promise<any>;
+    add(data?: unknown): Promise<any>;
     /**
      * 权限标识
      */
@@ -1181,35 +1181,35 @@ declare namespace Eps {
     /**
      * 删除
      */
-    delete(data?: any): Promise<any>;
+    delete(data?: unknown): Promise<any>;
     /**
      * 修改
      */
-    update(data?: any): Promise<any>;
+    update(data?: unknown): Promise<any>;
     /**
      * 移动部门
      */
-    move(data?: any): Promise<any>;
+    move(data?: unknown): Promise<any>;
     /**
      * 单个信息
      */
-    info(data?: any): Promise<BaseSysUserEntity>;
+    info(data?: unknown): Promise<BaseSysUserEntity>;
     /**
      * 列表查询
      */
-    list(data?: any): Promise<BaseSysUserEntity[]>;
+    list(data?: unknown): Promise<BaseSysUserEntity[]>;
     /**
      * 分页查询
      */
-    page(data?: any): Promise<{
+    page(data?: unknown): Promise<{
       pagination: { size: number; page: number; total: number };
       list: BaseSysUserEntity[];
-      [key: string]: any;
+      [key: string]: unknown;
     }>;
     /**
      * 新增
      */
-    add(data?: any): Promise<any>;
+    add(data?: unknown): Promise<any>;
     /**
      * 权限标识
      */
@@ -1244,31 +1244,31 @@ declare namespace Eps {
     /**
      * 删除
      */
-    delete(data?: any): Promise<any>;
+    delete(data?: unknown): Promise<any>;
     /**
      * 修改
      */
-    update(data?: any): Promise<any>;
+    update(data?: unknown): Promise<any>;
     /**
      * 单个信息
      */
-    info(data?: any): Promise<DemoGoodsEntity>;
+    info(data?: unknown): Promise<DemoGoodsEntity>;
     /**
      * 分页查询
      */
-    page(data?: any): Promise<{
+    page(data?: unknown): Promise<{
       pagination: { size: number; page: number; total: number };
       list: DemoGoodsEntity[];
-      [key: string]: any;
+      [key: string]: unknown;
     }>;
     /**
      * 列表查询
      */
-    list(data?: any): Promise<DemoGoodsEntity[]>;
+    list(data?: unknown): Promise<DemoGoodsEntity[]>;
     /**
      * 新增
      */
-    add(data?: any): Promise<any>;
+    add(data?: unknown): Promise<any>;
     /**
      * 权限标识
      */
@@ -1301,35 +1301,35 @@ declare namespace Eps {
     /**
      * 删除
      */
-    delete(data?: any): Promise<any>;
+    delete(data?: unknown): Promise<any>;
     /**
      * 修改
      */
-    update(data?: any): Promise<any>;
+    update(data?: unknown): Promise<any>;
     /**
      * 获得字典数据
      */
-    data(data?: any): Promise<any>;
+    data(data?: unknown): Promise<any>;
     /**
      * 单个信息
      */
-    info(data?: any): Promise<DictInfoEntity>;
+    info(data?: unknown): Promise<DictInfoEntity>;
     /**
      * 列表查询
      */
-    list(data?: any): Promise<DictInfoEntity[]>;
+    list(data?: unknown): Promise<DictInfoEntity[]>;
     /**
      * 分页查询
      */
-    page(data?: any): Promise<{
+    page(data?: unknown): Promise<{
       pagination: { size: number; page: number; total: number };
       list: DictInfoEntity[];
-      [key: string]: any;
+      [key: string]: unknown;
     }>;
     /**
      * 新增
      */
-    add(data?: any): Promise<any>;
+    add(data?: unknown): Promise<any>;
     /**
      * 权限标识
      */
@@ -1364,31 +1364,31 @@ declare namespace Eps {
     /**
      * 删除
      */
-    delete(data?: any): Promise<any>;
+    delete(data?: unknown): Promise<any>;
     /**
      * 修改
      */
-    update(data?: any): Promise<any>;
+    update(data?: unknown): Promise<any>;
     /**
      * 单个信息
      */
-    info(data?: any): Promise<DictTypeEntity>;
+    info(data?: unknown): Promise<DictTypeEntity>;
     /**
      * 列表查询
      */
-    list(data?: any): Promise<DictTypeEntity[]>;
+    list(data?: unknown): Promise<DictTypeEntity[]>;
     /**
      * 分页查询
      */
-    page(data?: any): Promise<{
+    page(data?: unknown): Promise<{
       pagination: { size: number; page: number; total: number };
       list: DictTypeEntity[];
-      [key: string]: any;
+      [key: string]: unknown;
     }>;
     /**
      * 新增
      */
-    add(data?: any): Promise<any>;
+    add(data?: unknown): Promise<any>;
     /**
      * 权限标识
      */
@@ -1421,31 +1421,31 @@ declare namespace Eps {
     /**
      * 删除
      */
-    delete(data?: any): Promise<any>;
+    delete(data?: unknown): Promise<any>;
     /**
      * 修改
      */
-    update(data?: any): Promise<any>;
+    update(data?: unknown): Promise<any>;
     /**
      * 单个信息
      */
-    info(data?: any): Promise<SpaceInfoEntity>;
+    info(data?: unknown): Promise<SpaceInfoEntity>;
     /**
      * 列表查询
      */
-    list(data?: any): Promise<SpaceInfoEntity[]>;
+    list(data?: unknown): Promise<SpaceInfoEntity[]>;
     /**
      * 分页查询
      */
-    page(data?: any): Promise<{
+    page(data?: unknown): Promise<{
       pagination: { size: number; page: number; total: number };
       list: SpaceInfoEntity[];
-      [key: string]: any;
+      [key: string]: unknown;
     }>;
     /**
      * 新增
      */
-    add(data?: any): Promise<any>;
+    add(data?: unknown): Promise<any>;
     /**
      * 权限标识
      */
@@ -1478,31 +1478,31 @@ declare namespace Eps {
     /**
      * 删除
      */
-    delete(data?: any): Promise<any>;
+    delete(data?: unknown): Promise<any>;
     /**
      * 修改
      */
-    update(data?: any): Promise<any>;
+    update(data?: unknown): Promise<any>;
     /**
      * 单个信息
      */
-    info(data?: any): Promise<SpaceTypeEntity>;
+    info(data?: unknown): Promise<SpaceTypeEntity>;
     /**
      * 列表查询
      */
-    list(data?: any): Promise<SpaceTypeEntity[]>;
+    list(data?: unknown): Promise<SpaceTypeEntity[]>;
     /**
      * 分页查询
      */
-    page(data?: any): Promise<{
+    page(data?: unknown): Promise<{
       pagination: { size: number; page: number; total: number };
       list: SpaceTypeEntity[];
-      [key: string]: any;
+      [key: string]: unknown;
     }>;
     /**
      * 新增
      */
-    add(data?: any): Promise<any>;
+    add(data?: unknown): Promise<any>;
     /**
      * 权限标识
      */
@@ -1535,47 +1535,47 @@ declare namespace Eps {
     /**
      * 删除
      */
-    delete(data?: any): Promise<any>;
+    delete(data?: unknown): Promise<any>;
     /**
      * 修改
      */
-    update(data?: any): Promise<any>;
+    update(data?: unknown): Promise<any>;
     /**
      * 开始
      */
-    start(data?: any): Promise<any>;
+    start(data?: unknown): Promise<any>;
     /**
      * 执行一次
      */
-    once(data?: any): Promise<any>;
+    once(data?: unknown): Promise<any>;
     /**
      * 停止
      */
-    stop(data?: any): Promise<any>;
+    stop(data?: unknown): Promise<any>;
     /**
      * 单个信息
      */
-    info(data?: any): Promise<TaskInfoEntity>;
+    info(data?: unknown): Promise<TaskInfoEntity>;
     /**
      * 分页查询
      */
-    page(data?: any): Promise<{
+    page(data?: unknown): Promise<{
       pagination: { size: number; page: number; total: number };
       list: TaskInfoEntity[];
-      [key: string]: any;
+      [key: string]: unknown;
     }>;
     /**
      * 日志
      */
-    log(data?: any): Promise<any>;
+    log(data?: unknown): Promise<any>;
     /**
      * 新增
      */
-    add(data?: any): Promise<any>;
+    add(data?: unknown): Promise<any>;
     /**
      * list
      */
-    list(data?: any): Promise<TaskInfoEntity[]>;
+    list(data?: unknown): Promise<TaskInfoEntity[]>;
     /**
      * 权限标识
      */
@@ -1615,10 +1615,10 @@ declare namespace Eps {
   type Service = {
     request<D>(
       options: AxiosRequestConfig<D>,
-    ): Promise<AxiosResponse<any, any>>;
-    chat?: { message: ChatMessage; session: ChatSession };
-    test?: Test;
-    base?: {
+    ): Promise<AxiosResponse<unknown, unknown>>;
+    chat: { message: ChatMessage; session: ChatSession };
+    test: Test;
+    base: {
       comm: BaseComm;
       open: BaseOpen;
       sys: {
@@ -1630,9 +1630,9 @@ declare namespace Eps {
         user: BaseSysUser;
       };
     };
-    demo?: { goods: DemoGoods };
-    dict?: { info: DictInfo; type: DictType };
-    space?: { info: SpaceInfo; type: SpaceType };
-    task?: { info: TaskInfo };
+    demo: { goods: DemoGoods };
+    dict: { info: DictInfo; type: DictType };
+    space: { info: SpaceInfo; type: SpaceType };
+    task: { info: TaskInfo };
   };
 }

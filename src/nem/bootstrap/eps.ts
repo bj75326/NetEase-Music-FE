@@ -129,6 +129,7 @@ export async function createEps() {
       method: 'POST',
       proxy: false,
       data: {
+        service,
         list: serviceList,
       },
     });

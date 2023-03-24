@@ -33,7 +33,7 @@ export interface Service {
 const baseService = new BaseService();
 
 export const service: Service = {
-  request: baseService.request.bind(baseService),
+  request: baseService.request,
 };
 
 export * from './base';

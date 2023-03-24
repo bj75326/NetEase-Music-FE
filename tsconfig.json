@@ -23,7 +23,8 @@
     "src/**/*.d.ts", 
     "src/**/*.tsx", 
     "src/**/*.vue", 
-    "build/**/*.ts"
+    "build/**/*.ts",
+    "env.d.ts"
   ],
   "exclude": ["node_modules", "dist"],
   "references": [{ "path": "./tsconfig.node.json" }]

@@ -3,6 +3,7 @@ import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import { storage, service, ExpandedBaseService, Service } from '/@/nem';
 import { RouteComponent } from 'vue-router';
+import { revisePath } from '../utils';
 
 export declare namespace Menu {
   enum Type {
@@ -59,7 +60,7 @@ export const useMenuStore = defineStore('menu', () => {
 
   // 设置权限
   const setPerms = (list: string[]) => {
-    const deep = (service: Service | ExpandedBaseService) => {
+    const deep = (service: Service) => {
       if (typeof service === 'object') {
         if (service.permission) {
           const expandedBaseService: ExpandedBaseService =
@@ -87,5 +88,62 @@ export const useMenuStore = defineStore('menu', () => {
     };
 
     deep(service);
+  };
+
+  // 设置视图
+  const setRoutes = (list: Menu.List) => {
+    routes.value = list;
+  };
+
+  // 设置菜单组
+
+  // 获取菜单，权限信息
+  const get = () => {
+    return new Promise((resolve, reject) => {
+      const next = (res: { menus: Menu.List; perms?: string[] }) => {
+        const list = res.menus
+          .filter((item) => item.type !== 2)
+          .map((item) => ({
+            ...item,
+            path: revisePath(item.router || String(item.id)),
+            isShow: item.isShow === undefined ? true : item.isShow,
+            meta: {
+              label: item.name,
+              keepAlive: item.keepAlive || 0,
+            },
+            children: [],
+          }));
+
+        // 设置权限
+        setPerms(res.perms || []);
+
+        // 设置菜单组
+
+        // 设置视图路由
+        setRoutes(list.filter((item) => item.type === 1));
+
+        // 设置菜单
+
+        resolve(list);
+
+        return list;
+      };
+
+      // 动态菜单
+      (service as unknown as Eps.Service).base.comm
+        .permmenu()
+        .then(next)
+        .catch((err) => {
+          showFailToast('菜单加载异常!');
+          reject(err);
+        });
+    });
+  };
+
+  // 获取菜单路径
+
+  return {
+    routes,
+    group,
   };
 });
