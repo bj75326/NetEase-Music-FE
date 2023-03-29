@@ -9,6 +9,9 @@ import {
 import { Data, toCamel } from '../utils';
 import { isEmpty, isArray } from 'lodash-es';
 
+// test
+export let serviceWithDts: Eps.Service;
+
 type LocalEpsJson = [string, string, [string, string?][]][];
 
 interface EpsService {
@@ -244,6 +247,8 @@ export async function createEps() {
     console.log('######service', service);
 
     await createDts(serviceList);
+
+    serviceWithDts = service as unknown as Eps.Service;
   };
 
   // 获取

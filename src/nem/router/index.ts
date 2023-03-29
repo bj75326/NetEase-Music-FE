@@ -20,9 +20,9 @@ type expand<U> = U extends _RouteRecordBase
 export type NemRouteRecord = expand<RouteRecordRaw>;
 
 export interface NemRouter extends VueRouter {
-  append?: (data: NemRouteRecord | NemRouteRecord[]) => void;
-  clear?: () => void;
-  find?: (path: string) => RouteRecordNormalized | undefined;
+  append: (data: NemRouteRecord | NemRouteRecord[]) => void;
+  clear: () => void;
+  find: (path: string) => RouteRecordNormalized | undefined;
 }
 
 // 扫描文件
@@ -58,7 +58,7 @@ const router: NemRouter = createRouter({
       ? createWebHistory()
       : createWebHashHistory(),
   routes,
-});
+}) as NemRouter;
 
 // 组件加载后
 router.beforeResolve(() => {

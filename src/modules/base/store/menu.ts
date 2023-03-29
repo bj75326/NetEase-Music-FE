@@ -1,7 +1,13 @@
 import { showFailToast } from 'vant';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
-import { storage, service, ExpandedBaseService, Service } from '/@/nem';
+import {
+  storage,
+  service,
+  ExpandedBaseService,
+  Service,
+  serviceWithDts,
+} from '/@/nem';
 import { RouteComponent } from 'vue-router';
 import { revisePath } from '../utils';
 
@@ -130,7 +136,7 @@ export const useMenuStore = defineStore('menu', () => {
       };
 
       // 动态菜单
-      (service as unknown as Eps.Service).base.comm
+      serviceWithDts.base.comm
         .permmenu()
         .then(next)
         .catch((err) => {

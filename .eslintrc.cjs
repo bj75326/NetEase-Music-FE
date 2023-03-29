@@ -39,6 +39,6 @@ module.exports = {
       }
     ],
     "@typescript-eslint/unbound-method": 0,
-    "@typescript-eslint/no-namespace": 0,
+    "@typescript-eslint/no-namespace": 0
   }
 }
