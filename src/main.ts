@@ -1,7 +1,13 @@
 import { createApp } from 'vue';
-import { ConfigProvider } from 'vant';
 import App from './App.vue';
+import { bootstrap } from './nem';
 
 const app = createApp(App);
-app.use(ConfigProvider);
-app.mount('#root');
+
+bootstrap(app)
+  .then(() => {
+    app.mount('#app');
+  })
+  .catch((err) => {
+    console.log('NetEase-Music-FE 启动失败', err);
+  });

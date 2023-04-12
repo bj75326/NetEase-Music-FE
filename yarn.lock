@@ -88,6 +88,11 @@
   "resolved" "https://registry.npmjs.org/@types/estree/-/estree-1.0.0.tgz"
   "version" "1.0.0"
 
+"@types/fastclick@^1.0.30":
+  "integrity" "sha512-koRHqVkngVb7FjAXWSCEelG9UONKL/NbcqbcSjt3Dw5lnEDXSDjviK7g6Zx9Tn87NFmPu3N0j7UHJUhyI27g+Q=="
+  "resolved" "https://registry.npmjs.org/@types/fastclick/-/fastclick-1.0.30.tgz"
+  "version" "1.0.30"
+
 "@types/json-schema@*", "@types/json-schema@^7.0.9":
   "integrity" "sha512-wOuvG1SN4Us4rez+tylwwwCV1psiNVOkJeM3AUWUNWg/jDQY2+HE/444y5gc+jBmRqASOm2Oeh5c1axHobwRKQ=="
   "resolved" "https://registry.npmjs.org/@types/json-schema/-/json-schema-7.0.11.tgz"

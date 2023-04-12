@@ -4,11 +4,15 @@ import { router } from '../router';
 import mitt from 'mitt';
 import { createModule } from './module';
 import { createEps } from './eps';
-import { Loading } from '../utils';
+import { Loading as loading } from '../utils';
+import vant from 'vant';
 
 export async function bootstrap(app: App) {
   // pinia
   app.use(createPinia());
+
+  // vant
+  app.use(vant);
 
   // mitt
   app.provide('mitt', mitt());
@@ -23,5 +27,5 @@ export async function bootstrap(app: App) {
   await createEps();
 
   // 加载
-  void Loading.set([eventLoop()]);
+  void loading.set([eventLoop()]);
 }
