@@ -24,6 +24,12 @@ let isRefreshing = false;
 // 请求
 request.interceptors.request.use(
   (req) => {
+    // 取消
+    // let cancel: Canceler;
+    // req.cancelToken = new axios.CancelToken((c) => {
+    //   cancel = c;
+    // });
+
     const { user } = useBase();
 
     if (req.url) {
@@ -56,14 +62,16 @@ request.interceptors.request.use(
       if (storage.isExpired('token')) {
         // 判断 refreshToken 是否过期
         if (storage.isExpired('refreshToken')) {
-          return user.logout();
+          user.logout();
+          return req;
         }
 
         // 是否在刷新中
         if (!isRefreshing) {
           isRefreshing = true;
 
-          user.refreshToken()
+          user
+            .refreshToken()
             .then((token: string) => {
               queue.forEach((cb) => cb(token));
               queue = [];
@@ -117,7 +125,9 @@ request.interceptors.response.use(
   async (error) => {
     NProgress.done();
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     if (error.response) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
       const { status, config } = error.response;
       const { user } = useBase();
 
@@ -125,15 +135,16 @@ request.interceptors.response.use(
         user.logout();
       } else {
         if (isDev) {
+          // eslint-disable-next-line @typescript-eslint/restrict-template-expressions, @typescript-eslint/no-unsafe-member-access
           showFailToast(`${config.url} ${status}`);
         } else {
           switch (status) {
-
           }
         }
       }
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
     return Promise.reject({ message: error.message });
   },
 );

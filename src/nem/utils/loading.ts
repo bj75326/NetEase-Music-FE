@@ -14,7 +14,10 @@ export const Loading: {
   async set(list: Promise<unknown>[]) {
     try {
       await Promise.all(list);
-    } catch (e) {}
+      console.log('set');
+    } catch (e) {
+      console.log('err', e);
+    }
 
     if (this.resolve) this.resolve(null);
   },

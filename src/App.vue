@@ -1,11 +1,7 @@
 <template>
-  <div class="container">
+  <div id="app">
     <van-config-provider>
-      <transition name="router-fade" mode="out-in">
-        <keep-alive>
-          <router-view></router-view>
-        </keep-alive>
-      </transition>
+      <router-view />
     </van-config-provider>
   </div>
 </template>
@@ -14,8 +10,8 @@
 console.log('test');
 </script>
 
-<style lang="less">
-.container {
+<style lang="scss">
+#app {
   height: 100vh;
   width: 100vw;
 }

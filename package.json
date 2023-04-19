@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "vue-tsc && vite build",
     "preview": "vite preview"
   },
@@ -38,6 +38,8 @@
     "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-vue": "^9.9.0",
     "prettier": "^2.8.3",
+    "sass": "^1.62.0",
+    "sass-loader": "^13.2.2",
     "typescript": "*",
     "vite": "^4.0.0",
     "vite-plugin-eslint": "^1.8.1",

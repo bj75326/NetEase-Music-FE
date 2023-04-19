@@ -34,6 +34,7 @@ export declare namespace Menu {
       label?: string;
       keepAlive?: number | boolean;
       iframeUrl?: string;
+      [key: string]: string | number | boolean | undefined;
     };
     children?: Item[];
     component?: RouteComponent;

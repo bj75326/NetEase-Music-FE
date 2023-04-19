@@ -256,18 +256,18 @@ export async function createEps() {
     try {
       let eps: Eps;
       // 本地数据
-      eps = {
-        eps: (JSON.parse(__EPS__ || '[]') as LocalEpsJson).map(
-          ([prefix, name, api]) => ({
-            prefix,
-            name,
-            api: api.map(([path, method]) => ({
-              method,
-              path,
-            })),
-          }),
-        ),
-      };
+      // eps = {
+      //   eps: (JSON.parse(__EPS__ || '[]') as LocalEpsJson).map(
+      //     ([prefix, name, api]) => ({
+      //       prefix,
+      //       name,
+      //       api: api.map(([path, method]) => ({
+      //         method,
+      //         path,
+      //       })),
+      //     }),
+      //   ),
+      // };
 
       // 接口数据
       if (isDev && config.test.eps) {
@@ -280,9 +280,9 @@ export async function createEps() {
         });
       }
 
-      if (eps) {
-        await setEps(eps);
-      }
+      // if (eps) {
+      //   await setEps(eps);
+      // }
     } catch (error) {
       console.log('[Eps] 获取失败', error);
     }

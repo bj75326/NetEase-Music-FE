@@ -11,8 +11,12 @@ const files: Record<string, { default: unknown }> = import.meta.glob(
   { eager: true },
 );
 
+console.log('module.ts ', files);
+
 // 模块列表
 module.list = Data.get('modules', []) as Module[];
+
+console.log('module.list ', module.list);
 
 // 解析
 for (const filePath in files) {
@@ -77,6 +81,8 @@ for (const filePath in files) {
   }
 }
 
+console.log('modules ', module.list);
+
 // 创建
 export const createModule = (app: App) => {
   // 模块加载
@@ -114,6 +120,8 @@ export const createModule = (app: App) => {
 
     return module;
   });
+
+  console.log('createModule run end');
 
   return {
     // 事件加载

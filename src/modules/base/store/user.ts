@@ -32,16 +32,17 @@ export const useUserStore = defineStore('user', () => {
         .refreshToken({
           refreshToken: storage.get('refreshToken'),
         })
-        .then((res) => {
-          setToken(
-            res as {
-              token: string;
-              expire: number;
-              refreshToken: string;
-              refreshExpire: number;
-            },
-          );
-        })
+        .then(
+          (res: {
+            token: string;
+            expire: number;
+            refreshToken: string;
+            refreshExpire: number;
+          }) => {
+            setToken(res);
+            resolve(res.token);
+          },
+        )
         .catch((err) => {
           logout();
           reject(err);

@@ -12,12 +12,15 @@ import { Loading } from '../utils';
 import { isArray } from 'lodash-es';
 import { showFailToast } from 'vant';
 import { useBase } from '/$/base';
+import { Menu } from '/$/base/store/menu';
 
 type expand<U> = U extends _RouteRecordBase
   ? U & { isPage?: boolean; viewPath?: string }
   : never;
 
-export type NemRouteRecord = expand<RouteRecordRaw>;
+export type NemRouteRecord =
+  | expand<RouteRecordRaw>
+  | (Menu.Item & { isPage?: boolean; viewPath?: string });
 
 export interface NemRouter extends VueRouter {
   append: (data: NemRouteRecord | NemRouteRecord[]) => void;
@@ -99,9 +102,17 @@ router.append = (data: NemRouteRecord | NemRouteRecord[]) => {
     routeRecord.meta.dynamic = true;
 
     if (routeRecord.isPage) {
-      router.addRoute(routeRecord);
+      console.log('addroute ', routeRecord);
+      router.addRoute(routeRecord as RouteRecordRaw);
+      router.getRoutes().forEach((route) => console.log(route.path));
+      console.log('添加后 check ', router.getRoutes());
+      console.log(
+        '添加后 check ',
+        router.getRoutes().find((route) => route.path === '/login'),
+      );
+      console.log('添加后 check ', router.find('/login'));
     } else {
-      router.addRoute('index', routeRecord);
+      router.addRoute('index', routeRecord as RouteRecordRaw);
     }
   });
 };
@@ -118,10 +129,9 @@ router.clear = () => {
 };
 
 // 查找路由
-router.find = (path: string) =>
-  router.getRoutes().find((route) => {
-    route.path === path;
-  });
+router.find = (path: string) => {
+  return router.getRoutes().find((route) => route.path === path);
+};
 
 // 错误监听
 let lock = false;
@@ -142,7 +152,9 @@ router.onError((err) => {
 // 注册
 async function register(path: string) {
   // 当前路由不存在
-  const existed = Boolean(router.find?.(path));
+  const existed = Boolean(router.find(path));
+  console.log('path ', path);
+  console.log('existed ', existed);
 
   if (!existed) {
     const { menu } = useBase();
@@ -157,7 +169,7 @@ async function register(path: string) {
     menu.routes.forEach((route) => {
       list.push({
         ...route,
-        isPage: route.viewPath?.include('/pages'),
+        isPage: route.viewPath?.includes('/pages'),
       });
     });
 
@@ -168,6 +180,7 @@ async function register(path: string) {
       }
 
       if (module.pages) {
+        console.log('add list');
         list.push(
           ...module.pages.map((page) => ({
             ...page,
@@ -178,24 +191,27 @@ async function register(path: string) {
     });
 
     // 需要注册的路由
+    console.log('list', list);
     const route = list.find((routeRecord) => routeRecord.path === path);
+    console.log('route 找到了么', route);
 
     if (route) {
-      router.append?.(route);
+      router.append(route);
     }
   }
 
-  return { route: router.find?.(path), isReg: !existed };
+  return { route: router.find(path), isReg: !existed };
 }
 
 // 路由守卫
 router.beforeEach(async (to, from, next) => {
+  console.log('router beforeEach');
   // 数据缓存
   const { user, process } = useBase();
 
   // 预先注册路由
   const { isReg, route } = await register(to.path);
-
+  console.log('after register ', route);
   // 组件不存在、路由不存在
   if (!route?.components) {
     next(user.token ? '/404' : '/login');

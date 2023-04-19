@@ -8,6 +8,7 @@ import { Loading as loading } from '../utils';
 import vant from 'vant';
 
 export async function bootstrap(app: App) {
+  console.log('bootstrap');
   // pinia
   app.use(createPinia());
 
@@ -27,5 +28,7 @@ export async function bootstrap(app: App) {
   await createEps();
 
   // 加载
-  void loading.set([eventLoop()]);
+  await loading.set([eventLoop()]);
+
+  console.log('bootstrap end');
 }

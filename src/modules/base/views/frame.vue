@@ -2,7 +2,9 @@
   <van-overlay :show="show">
     <van-loading type="spinner" />
   </van-overlay>
-  <iframe :src="url" frameborder="0" :ref=""></iframe>
+  <div class="page-inframe">
+    <iframe :src="url" frameborder="0" :ref="setRefs('iframe')"></iframe>
+  </div>
 </template>
 
 <script lang="ts" name="frame" setup>
@@ -25,7 +27,19 @@ watch(
 onMounted(() => {
   show.value = true;
 
-
-
+  (refs.iframe as HTMLIFrameElement).onload = () => {
+    show.value = false;
+  };
 });
 </script>
+
+<style lang="scss" scoped>
+.page-frame {
+  height: 100%;
+
+  iframe {
+    height: 100%;
+    width: 100%;
+  }
+}
+</style>

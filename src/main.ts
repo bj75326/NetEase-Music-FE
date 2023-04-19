@@ -6,6 +6,7 @@ const app = createApp(App);
 
 bootstrap(app)
   .then(() => {
+    console.log('start mount');
     app.mount('#app');
   })
   .catch((err) => {

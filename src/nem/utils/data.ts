@@ -4,7 +4,7 @@ export const Data = {
   },
 
   get(key: string, value?: unknown) {
-    if (value !== undefined && window[`__${key}__`] !== undefined) {
+    if (value !== undefined && !window[`__${key}__`]) {
       window[`__${key}__`] = value;
     }
 
