@@ -10,7 +10,7 @@ import { Data, toCamel } from '../utils';
 import { isEmpty, isArray } from 'lodash-es';
 
 // test
-export let serviceWithDts: Eps.Service;
+// export let serviceWithDts: Eps.Service;
 
 type LocalEpsJson = [string, string, [string, string?][]][];
 
@@ -173,10 +173,7 @@ export async function createEps() {
                 // 本地不存在则创建实例
                 if (!service[directory]) {
                   service[directory] = new BaseService({
-                    namespace: epsService.prefix.substring(
-                      1,
-                      epsService.prefix.length - 1,
-                    ),
+                    namespace: epsService.prefix.substring(1),
                   }) as ExpandedBaseService;
                 }
 
@@ -248,7 +245,7 @@ export async function createEps() {
 
     await createDts(serviceList);
 
-    serviceWithDts = service as unknown as Eps.Service;
+    // serviceWithDts = service as unknown as Eps.Service;
   };
 
   // 获取
@@ -256,33 +253,34 @@ export async function createEps() {
     try {
       let eps: Eps;
       // 本地数据
-      // eps = {
-      //   eps: (JSON.parse(__EPS__ || '[]') as LocalEpsJson).map(
-      //     ([prefix, name, api]) => ({
-      //       prefix,
-      //       name,
-      //       api: api.map(([path, method]) => ({
-      //         method,
-      //         path,
-      //       })),
-      //     }),
-      //   ),
-      // };
+      eps = {
+        eps: (JSON.parse(__EPS__ || '[]') as LocalEpsJson).map(
+          ([prefix, name, api]) => ({
+            prefix,
+            name,
+            api: api.map(([path, method]) => ({
+              method,
+              path,
+            })),
+          }),
+        ),
+      };
 
       // 接口数据
       if (isDev && config.test.eps) {
         await service.request!({
           url: '/admin/base/open/eps',
         }).then((res) => {
+          console.log('res ', res);
           if (!isEmpty(res)) {
             eps = res as unknown as Eps;
           }
         });
       }
 
-      // if (eps) {
-      //   await setEps(eps);
-      // }
+      if (eps) {
+        await setEps(eps);
+      }
     } catch (error) {
       console.log('[Eps] 获取失败', error);
     }

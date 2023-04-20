@@ -22,8 +22,7 @@
     "src/**/*.ts", 
     "src/**/*.d.ts", 
     "src/**/*.tsx", 
-    "src/**/*.vue", 
-    "build/**/*.ts",
+    "src/**/*.vue",
     "env.d.ts"
   ],
   "exclude": ["node_modules", "dist"],

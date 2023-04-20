@@ -6,7 +6,7 @@ import {
   service,
   ExpandedBaseService,
   Service,
-  serviceWithDts,
+  useService,
 } from '/@/nem';
 import { RouteComponent } from 'vue-router';
 import { revisePath } from '../utils';
@@ -137,8 +137,8 @@ export const useMenuStore = defineStore('menu', () => {
       };
 
       // 动态菜单
-      serviceWithDts.base.comm
-        .permmenu()
+      useService()
+        .base.comm.permmenu()
         .then(next)
         .catch((err) => {
           showFailToast('菜单加载异常!');

@@ -15,7 +15,7 @@ export function nem(): Plugin {
 
         if (req.url?.includes('__nem')) {
           const body = await parseJson(req);
-          let next;
+          let next: Promise<unknown>;
 
           switch (req.url) {
             // 快速创建菜单
@@ -30,6 +30,7 @@ export function nem(): Plugin {
               break;
           }
 
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
           if (next) {
             next
               .then((data: unknown) => {

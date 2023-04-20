@@ -88,7 +88,7 @@ export class BaseService {
     }
 
     // 处理地址
-    if (options.proxy === undefined || !options.proxy) {
+    if (options.proxy === undefined || options.proxy) {
       options.url = namespace
         ? `${namespace}${options.url || ''}`
         : options.url;

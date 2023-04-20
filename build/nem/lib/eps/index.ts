@@ -4,7 +4,7 @@ import { readFile, toCamel, firstUpperCase, createDir } from '../../utils';
 import { join } from 'path';
 import { createWriteStream } from 'fs';
 import config from './config';
-import { last, isEmpty } from 'lodash';
+import { last, isEmpty } from 'lodash-es';
 import prettier from 'prettier';
 
 export interface Options {

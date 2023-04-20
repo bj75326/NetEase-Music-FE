@@ -1,5 +1,9 @@
 <template>
-  <div>login</div>
+  <div class="page-login">
+    <div class="box">
+      <div class="logo">logo</div>
+    </div>
+  </div>
 </template>
 
 <script lang="ts" name="login" setup>

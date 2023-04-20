@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import { storage } from '/@/nem/utils';
-import { service, config, serviceWithDts, router } from '/@/nem';
+import { useService, config, router } from '/@/nem';
 
 // 本地缓存
 const data = storage.info();
@@ -28,8 +28,8 @@ export const useUserStore = defineStore('user', () => {
   // 刷新标识
   const refreshToken = (): Promise<string> => {
     return new Promise((resolve, reject) => {
-      serviceWithDts.base.open
-        .refreshToken({
+      useService()
+        .base.open.refreshToken({
           refreshToken: storage.get('refreshToken'),
         })
         .then(
@@ -78,10 +78,12 @@ export const useUserStore = defineStore('user', () => {
 
   // 获取用户信息
   const get = () => {
-    return serviceWithDts.base.comm.person().then((res) => {
-      set(res as Eps.BaseSysUserEntity);
-      return res;
-    });
+    return useService()
+      .base.comm.person()
+      .then((res) => {
+        set(res as Eps.BaseSysUserEntity);
+        return res;
+      });
   };
 
   return {
