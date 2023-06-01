@@ -19,10 +19,61 @@
 
 ## 技术栈
 
-- vue: 
-- ++
+- vue: 页面构建
+- vant: 页面组件库
+- 
 
 ## 项目目录
 
-## ++
+```ts
+.src
++-- assets  // 资源文件，比如图片之类
++-- modules  // 模块文件夹
+    +-- base  // 基础模块目录
+        +-- components
+        +-- layout
+        +-- pages
+        +-- static
+        +-- store
+        +-- utils
+        +-- views
+        +-- config.ts
+        +-- index.ts
+    +-- demo
++-- nem  // 框架文件夹
+    +-- bootstrap
+        +-- eps.ts  // 处理 eps, 从后台获得所有 api
+        +-- i18n.ts  // 处理国际化
+        +-- module.ts  // 安装模块
+        +-- index.ts  // 启动文件
+    +-- config
+        +-- dev.ts  // 开发环境调用 api 目标域名（host）和基础目录（baseUrl）
+        +-- prod.ts  // 产品环境调用 api 目标域名（host）和基础目录 （baseUrl）
+        +-- proxy.ts  // dev & prod 后台访问代理配置
+        +-- index.ts  // 配置信息
+    +-- hooks  // 自定义 hook
+    +-- module
+        +-- index.ts  // 定义模块存储对象 
+    +-- router
+        +-- index.ts  // 创建项目路由
+    +-- service
+        +-- base.ts  // 定义 BaseService 类
+        +-- index.ts  // 创建 service 对象
+        +-- request.ts  // 基于 axios 创建请求方法
+    +-- utils
+        +-- data.ts  // 定义全局对象存储方法
+        +-- index.ts  // 定义一些通用工具方法
+        +-- loading.ts  // 定义 loading 
+        +-- storage.ts  // 定义本地存储方法
+    +-- index.ts  // 导出
++-- App.vue  // 项目根组件
++-- main.ts  // js 入口文件
++-- index.html  // 挂载网页
+```
+
+## 框架搭建
+
+
+
+
 

@@ -28,7 +28,7 @@ export const Loading: {
   },
 
   close() {
-    const el = document.getElementById('loading');
+    const el = document.getElementById('Loading');
 
     if (el) {
       el.style.display = 'none';

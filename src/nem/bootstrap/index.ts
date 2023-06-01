@@ -5,7 +5,8 @@ import mitt from 'mitt';
 import { createModule } from './module';
 import { createEps } from './eps';
 import { Loading as loading } from '../utils';
-import vant from 'vant';
+import { i18n } from './i18n';
+// import vant from 'vant';
 
 export async function bootstrap(app: App) {
   console.log('bootstrap');
@@ -13,7 +14,10 @@ export async function bootstrap(app: App) {
   app.use(createPinia());
 
   // vant
-  app.use(vant);
+  // app.use(vant);
+
+  // i18n
+  app.use(i18n);
 
   // mitt
   app.provide('mitt', mitt());
