@@ -28,7 +28,9 @@ const enUS = {
 
 export const i18n = createI18n({
   locale:
-    (storage.get('__app__') as NemConfig['app'])?.locale || config.app.locale,
+    (storage.get('__app__') as NemConfig['app'])?.locale ||
+    ['zh-CN', 'en-US'].find((locale) => locale === navigator.language) ||
+    config.app.locale,
   legacy: false,
   globalInjection: true,
   messages: {
