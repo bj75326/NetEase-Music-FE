@@ -77,6 +77,8 @@
 
 ### 1. 安装 pinia
 
+// todo
+
 ### 2. 安装 vue-i18n 实现国际化
 
 vue-i18n 配置目录 [/src/nem/bootstrap/i18n.ts](/src/nem/bootstrap/i18n.ts) 
@@ -106,7 +108,40 @@ mitt 详细功能参考 [mitt](https://github.com/developit/mitt)
 
 ### 4. 安装 router
 
+router 初始只定义了两条匹配记录：
 
+```ts
+const routes: RouteRecordRaw[] = [
+  // 默认路由
+  {
+    path: '/',
+    name: 'index',
+    component: () => import('/$/base/layout/index.vue'),
+  },
+  // 未匹配路由
+  {
+    path: '/:pathMatch(.*)*',
+    component: () => import('/$/base/pages/error/404.vue'),
+  },
+];
+```
+
+同时，通过 vite 提供的 [import.meta.glob](https://cn.vitejs.dev/guide/migration-from-v2.html#importmetaglob) 获取所有模块的视图和页面，为后续动态添加路由做准备。
+
+之后，使用 vue-router 基于 config 内的路由配置创建好路由，并对 router 扩充以下方法：
+
+- append  
+- clear  清空所有动态路由
+- find  查找路由
+
+nem router 通过注册全局前置守卫，动态添加路由，具体流程如下：
+
+
+### 5. 安装模块
+
+
+
+### 6. 获取并解析 eps，扩充 service
 
 
 
