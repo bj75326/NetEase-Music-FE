@@ -75,9 +75,9 @@
 
 在开始 mount 页面之前，需要执行 [bootstrap](/src/nem/bootstrap/index.ts) 来启动整个项目，我们通过 bootstrap 内的执行顺序来梳理框架结构。
 
-1. 安装 pinia
+### 1. 安装 pinia
 
-2. 安装 vue-i18n 实现国际化
+### 2. 安装 vue-i18n 实现国际化
 
 vue-i18n 配置目录 [/src/nem/bootstrap/i18n.ts](/src/nem/bootstrap/i18n.ts) 
 
@@ -100,11 +100,11 @@ const i18n = createI18n({
 });
 ```
 
-3. 提供 mitt 供组件注入
+### 3. 提供 mitt 供组件注入
 
 mitt 详细功能参考 [mitt](https://github.com/developit/mitt)
 
-4. 安装 router
+### 4. 安装 router
 
 
 
