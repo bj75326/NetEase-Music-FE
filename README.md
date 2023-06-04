@@ -136,6 +136,8 @@ const routes: RouteRecordRaw[] = [
 
 nem router 通过注册全局前置守卫，动态添加路由，具体流程如下：
 
+![nem_router_flowchart](./src/assets/nem_router_flowchart.png#gh-light-mode-only)
+![nem_router_flowchart_dark](./src/assets/nem_router_flowchart_dark.png#gh-dark-mode-only)
 
 ### 5. 安装模块
 
