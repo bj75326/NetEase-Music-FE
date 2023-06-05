@@ -87,6 +87,7 @@ export const createModule = (app: App) => {
       Object.assign(module, config);
 
       // 注册组件
+      // todo
       module.components?.forEach(async (component) => {
         const exportedValue = await (isFunction(component)
           ? (component as () => Promise<Component | { default: Component }>)()

@@ -192,8 +192,13 @@ export interface Module extends ModuleConfig {
 
 eps 全称 entity provide service，通过检索后台提供的服务在前端自动生成 api 调用方法。
 
-#### 封装请求方法
+#### 6.1 封装请求方法
 
+本项目基于 axios 封装请求方法，并配置 request 和 response 拦截器。
+
+- request 拦截器 
+
+- response 拦截器
 
 
 > 思考：为什么安装模块需要在解析 eps 之前进行？  
