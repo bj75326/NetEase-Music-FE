@@ -32,11 +32,11 @@
 |   +-- base  // 基础模块目录
 |   |   +-- components  // 组件文件夹
 |   |   +-- layout  // 布局
-|   |   +-- pages  // 
+|   |   +-- pages  // 页面
 |   |   +-- static
 |   |   +-- store
 |   |   +-- utils
-|   |   +-- views
+|   |   +-- views // 视图
 |   |   +-- config.ts
 |   |   +-- index.ts
 |   +-- demo
@@ -139,11 +139,61 @@ nem router 通过注册全局前置守卫，动态添加路由，具体流程如
 ![nem_router_flowchart](./src/assets/nem_router_flowchart.png#gh-light-mode-only)
 ![nem_router_flowchart_dark](./src/assets/nem_router_flowchart_dark.png#gh-dark-mode-only)
 
+> 思考：为什么注册新路由需要等到模块的 eventLoop 执行完成？
+
+> 思考：每次从 menu 和模块获取路由消息开销太大，为什么不设置缓存？
+
 ### 5. 安装模块
 
+首先，熟悉下每一个模块的导出数据结构：
 
+```ts
+export interface ModuleConfig {
+  order?: number;
+  options?: {
+    [key: string]: unknown;
+  };
+  components?: (
+    | Component
+    | (() => Promise<Component | { default: Component }>)
+    | Promise<Component | { default: Component }>
+  )[];
+  views?: RouteRecordRaw[];
+  pages?: RouteRecordRaw[];
+  install?(app: App, options?: ModuleConfig['options']): unknown;
+  onLoad?(events: {
+    hasToken?: (cb: () => Promise<unknown> | void) => Promise<unknown> | void;
+    [key: string]: unknown;
+  }): Promise<{ [key: string]: unknown }> | Promise<void> | void;
+}
+
+export interface Module extends ModuleConfig {
+  name: string;
+  options: {
+    [key: string]: unknown;
+  };
+  value?: ((app?: App) => ModuleConfig) | ModuleConfig;
+  services?: { path: string; value: BaseService & IBaseServiceProtoType }[];
+  directives?: { name: string; value: Directive }[];
+}
+```
+
+> 思考：为什么要将模块导出内容结构分为 Module 和 ModuleConfig？
+> Module 定义的内容通过扫描 modules 目录获得，ModuleConfig 定义的内容通过每个模块的 config 获得。Module 定义的内容要求同步获得，而 ModuleConfig 的内容可以选择异步加载。
+
+在项目加载时，通过 [import.meta.glob](https://cn.vitejs.dev/guide/migration-from-v2.html#importmetaglob) 扫描 /src/modules，获取 config，service，directives。需要注意的是，这个时候扫描读取文件加上了参数 `eager: true`，内容同步读取。之后，遍历文件内容，处理后放入模块缓存中。
+
+之后，项目初始化时，按照模块 order 逐个解析模块缓存中的模块，注册组件，触发安装事件，注册指令，合并 service，在所有模块安装完成后返回一个 eventLoop 函数执行所有模块的 onLoad 钩子。
+
+> 思考：为什么 eventLoop 函数需要在解析好 eps 之后才执行？
+> 类似每个模块内需要异步获取数据之类的操作会放在模块 onLoad 钩子内执行，而从后台获取数据需要 service，所以需要等到 eps 解析完成再执行。
 
 ### 6. 获取并解析 eps，扩充 service
+
+> 思考：为什么安装模块需要在解析 eps 之前进行？
+> 各个模块也会有各自的 service，在安装模块时，这些 service 会先行合并到项目 service 上，之后 eps 解析扩充项目 service 后，一起生成描述文件。
+
+
 
 
 
