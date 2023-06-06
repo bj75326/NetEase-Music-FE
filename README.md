@@ -139,8 +139,8 @@ const routes: RouteRecordRaw[] = [
 
 nem router 通过注册全局前置守卫，动态添加路由，具体流程如下：
 
-![nem_router_flowchart](./src/assets/nem_router_flowchart.png#gh-light-mode-only)
-![nem_router_flowchart_dark](./src/assets/nem_router_flowchart_dark.png#gh-dark-mode-only)
+![nem_router_flowchart](./src/assets/nem_router_beforeEach_flowchart.png#gh-light-mode-only)
+![nem_router_flowchart_dark](./src/assets/nem_router_beforeEach_flowchart_dark.png#gh-dark-mode-only)
 
 > 思考：为什么注册新路由需要等到模块的 eventLoop 执行完成？  
 
@@ -213,13 +213,50 @@ request 拦截器主要功能是开启请求进度条，并验证 token 和 refr
 
 response 拦截器主要功能是关闭请求进度条，初步处理下返回数据。
 
-#### 6.2 service 结构
+之后 BaseService 在此基础上调用封装好的 request，并加上代理 baseUrl。
 
-eps 会在扩充 service 之后，为 service 生成描述文件，但是在架构搭建阶段，需要用 typescript 描述 service，接口定义在 [/src/nem/service/index.ts](/src/nem/service/index.ts)
+#### 6.2 Eps 数据结构
+
+生产环境通过读取本地 [eps.json](/build/nem/temp/eps.json) 获取 eps， 开发环境在项目初始化时调用接口获得，Eps 结构如下
+
+```ts
+interface EpsService {
+  module?: string;
+  prefix: string;
+  name?: string;
+  columns?: {
+    propertyName: string;
+    type: string;
+    length: string;
+    comment: string;
+    nullable: boolean;
+  }[];
+  api?: {
+    name?: string;
+    method?: string;
+    path: string;
+    summary?: string;
+    dts?: {
+      parameters?: {
+        description?: string;
+        schema?: {
+          type: string;
+        };
+        name?: string;
+        required?: boolean;
+      }[];
+    };
+  }[];
+}
+
+interface Eps {
+  [key: string]: EpsService[];  // 每一个模块对应一组 EpsService
+}
+```
+
+#### 6.3 解析 Eps
 
 
-
-#### 6.3 
 
 > 思考：为什么安装模块需要在解析 eps 之前进行？  
 > 各个模块也会有各自的 service，在安装模块时，这些 service 会先行合并到项目 service 上，之后 eps 解析扩充项目 service 后，一起生成描述文件。
