@@ -79,6 +79,7 @@
 
 // todo
 
+
 ### 2. 安装 vue-i18n 实现国际化
 
 vue-i18n 配置目录 [/src/nem/bootstrap/i18n.ts](/src/nem/bootstrap/i18n.ts) 
@@ -102,9 +103,11 @@ const i18n = createI18n({
 });
 ```
 
+
 ### 3. 提供 mitt 供组件注入
 
 mitt 详细功能参考 [mitt](https://github.com/developit/mitt)
+
 
 ### 4. 安装 router
 
@@ -142,6 +145,7 @@ nem router 通过注册全局前置守卫，动态添加路由，具体流程如
 > 思考：为什么注册新路由需要等到模块的 eventLoop 执行完成？  
 
 > 思考：每次从 menu 和模块获取路由消息开销太大，为什么不设置缓存？  
+
 
 ### 5. 安装模块
 
@@ -188,6 +192,7 @@ export interface Module extends ModuleConfig {
 > 思考：为什么 eventLoop 函数需要在解析好 eps 之后才执行？  
 > 类似每个模块内需要异步获取数据之类的操作会放在模块 onLoad 钩子内执行，而从后台获取数据需要 service，所以需要等到 eps 解析完成再执行。
 
+
 ### 6. 获取并解析 eps，扩充 service
 
 eps 全称 entity provide service，通过检索后台提供的服务在前端自动生成 api 调用方法。
@@ -198,8 +203,23 @@ eps 全称 entity provide service，通过检索后台提供的服务在前端�
 
 - request 拦截器 
 
+request 拦截器主要功能是开启请求进度条，并验证 token 和 refreshToken。
+
+1. token 未过期，直接通过拦截器。
+2. token 过期，refreshToken 过期， 直接登出。
+3. token 过期，refreshToken 未过期，向后台发出 refresh token 请求，将当前请求放入队列中，在 token 刷新之后，遍历队列恢复请求。
+
 - response 拦截器
 
+response 拦截器主要功能是关闭请求进度条，初步处理下返回数据。
+
+#### 6.2 service 结构
+
+eps 会在扩充 service 之后，为 service 生成描述文件，但是在架构搭建阶段，需要用 typescript 描述 service，接口定义在 [/src/nem/service/index.ts](/src/nem/service/index.ts)
+
+
+
+#### 6.3 
 
 > 思考：为什么安装模块需要在解析 eps 之前进行？  
 > 各个模块也会有各自的 service，在安装模块时，这些 service 会先行合并到项目 service 上，之后 eps 解析扩充项目 service 后，一起生成描述文件。
