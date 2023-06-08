@@ -1,7 +1,5 @@
 <h1 align="center">仿网易云音乐移动端开发纪要</h1>
-<br/>
-<br/>
-<br/>
+
 ## 前言
 
 之前大致学习了 vue 生态的基础，想重拾并做一个完整的小项目，主要复习
@@ -12,21 +10,21 @@
 
 配套的后台开发也同步进行，具体在[NetEase-Music-BE](https://github.com/bj75326/NetEase-Music-BE)
 <br/>
-<br/>
+
 ## 环境搭建
 
 - vite: 使用 **-template vue-ts** 初始化项目，并负责项目构建
 - ESlint: 规范项目代码
 - prettier: 统一代码风格
 - ++
-  
-  
+<br/>
+
 ## 技术栈
 
 - vue: 页面构建
 - vant: 页面组件库
 - pinia
-  
+<br/>
 
 ## 项目目录
 
@@ -75,7 +73,7 @@
 +-- main.ts  // js 入口文件
 +-- index.html  // 挂载网页
 ```
-  
+<br/>
 
 ## 框架搭建
 
@@ -84,7 +82,7 @@
 ### 1. 安装 pinia
 
 // todo
-  
+<br/>
   
 ### 2. 安装 vue-i18n 实现国际化
 
@@ -108,12 +106,12 @@ const i18n = createI18n({
   },
 });
 ```
-  
+<br/>
   
 ### 3. 提供 mitt 供组件注入
 
 mitt 详细功能参考 [mitt](https://github.com/developit/mitt)
-  
+<br/>
   
 ### 4. 安装 router
 
@@ -151,7 +149,7 @@ nem router 通过注册全局前置守卫，动态添加路由，具体流程如
 > 思考：为什么注册新路由需要等到模块的 eventLoop 执行完成？  
 
 > 思考：每次从 menu 和模块获取路由消息开销太大，为什么不设置缓存？  
-
+<br/>
 
 ### 5. 安装模块
 
@@ -197,11 +195,12 @@ export interface Module extends ModuleConfig {
 
 > 思考：为什么 eventLoop 函数需要在解析好 eps 之后才执行？  
 > 类似每个模块内需要异步获取数据之类的操作会放在模块 onLoad 钩子内执行，而从后台获取数据需要 service，所以需要等到 eps 解析完成再执行。
-
+<br/>
 
 ### 6. 获取并解析 eps，扩充 service
 
 eps 全称 entity provide service，通过检索后台提供的服务在前端自动生成 api 调用方法。
+<br/>
 
 #### 6.1 封装请求方法
 
@@ -220,6 +219,7 @@ request 拦截器主要功能是开启请求进度条，并验证 token 和 refr
 response 拦截器主要功能是关闭请求进度条，初步处理下返回数据。
 
 之后 BaseService 在此基础上调用封装好的 request，并加上代理 baseUrl。
+<br/>
 
 #### 6.2 Eps 数据结构
 
@@ -259,10 +259,10 @@ interface Eps {
   [key: string]: EpsService[];  // 每一个模块对应一组 EpsService
 }
 ```
+<br/>
 
 #### 6.3 解析 Eps
-
-
+<br/>
 
 > 思考：为什么安装模块需要在解析 eps 之前进行？  
 > 各个模块也会有各自的 service，在安装模块时，这些 service 会先行合并到项目 service 上，之后 eps 解析扩充项目 service 后，一起生成描述文件。
