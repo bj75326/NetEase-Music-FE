@@ -1,5 +1,7 @@
 <h1 align="center">仿网易云音乐移动端开发纪要</h1>
-
+<br/>
+<br/>
+<br/>
 ## 前言
 
 之前大致学习了 vue 生态的基础，想重拾并做一个完整的小项目，主要复习
@@ -9,8 +11,8 @@
 3. 移接 cool-admin 架构至本项目，并复习 cool-admin
 
 配套的后台开发也同步进行，具体在[NetEase-Music-BE](https://github.com/bj75326/NetEase-Music-BE)
-  
-  
+<br/>
+<br/>
 ## 环境搭建
 
 - vite: 使用 **-template vue-ts** 初始化项目，并负责项目构建
