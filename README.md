@@ -9,19 +9,22 @@
 3. 移接 cool-admin 架构至本项目，并复习 cool-admin
 
 配套的后台开发也同步进行，具体在[NetEase-Music-BE](https://github.com/bj75326/NetEase-Music-BE)
-
+  
+  
 ## 环境搭建
 
 - vite: 使用 **-template vue-ts** 初始化项目，并负责项目构建
 - ESlint: 规范项目代码
 - prettier: 统一代码风格
 - ++
-
+  
+  
 ## 技术栈
 
 - vue: 页面构建
 - vant: 页面组件库
 - pinia
+  
 
 ## 项目目录
 
@@ -70,6 +73,7 @@
 +-- main.ts  // js 入口文件
 +-- index.html  // 挂载网页
 ```
+  
 
 ## 框架搭建
 
@@ -78,8 +82,8 @@
 ### 1. 安装 pinia
 
 // todo
-
-
+  
+  
 ### 2. 安装 vue-i18n 实现国际化
 
 vue-i18n 配置目录 [/src/nem/bootstrap/i18n.ts](/src/nem/bootstrap/i18n.ts) 
@@ -102,13 +106,13 @@ const i18n = createI18n({
   },
 });
 ```
-
-
+  
+  
 ### 3. 提供 mitt 供组件注入
 
 mitt 详细功能参考 [mitt](https://github.com/developit/mitt)
-
-
+  
+  
 ### 4. 安装 router
 
 router 初始只定义了两条匹配记录：
