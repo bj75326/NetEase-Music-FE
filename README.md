@@ -139,7 +139,8 @@ nem router 通过注册全局前置守卫，动态添加路由，具体流程如
 ![nem_router_flowchart](./src/assets/nem_router_beforeEach_flowchart.png#gh-light-mode-only)
 ![nem_router_flowchart_dark](./src/assets/nem_router_beforeEach_flowchart_dark.png#gh-dark-mode-only)
 
-> 思考：为什么注册新路由需要等到模块的 eventLoop 执行完成？  
+> 思考：为什么注册新路由需要等到模块的 onLoad 执行完成？  
+> 注册新路由会去 menu store 和 module.list 内寻找匹配的新路由注册。menu store 的数据获取是在模块的 onLoad 阶段进行的，所以需要等到所有模块的 onLoad 完成后再注册新路由才不会发生遗漏。
 
 > 思考：每次从 menu 和模块获取路由消息开销太大，为什么不设置缓存？
 
@@ -251,10 +252,18 @@ interface Eps {
 
 #### 6.3 解析 Eps
 
-Eps 解析可以参考下图：
+Eps 解析效果可以参考下图：
 
 ![nem_eps_parse](/src/assets/nem_eps_parse.png#gh-light-mode-only)
 ![nem_eps_parse_dark](/src/assets/nem_eps_parse_dark.png#gh-dark-mode-only)
+
+解析完 eps 并扩充 service 后，将 service 保存在全局变量缓存起来。
+
+#### 6.4 生成 Service 描述文件
+
+nem 使用 [vite 插件](/build/nem/lib/eps/index.ts) 生成描述文件 [eps.d.ts](/build/nem/temp/eps.d.ts)。
+
+在有了描述文件后，模块中引用 Service 可以通过 nem 提供的 [hook](/src/nem/hooks/index.ts) useService 随时获取 ts 类型支持的 service 对象对后台进行接口调用。
 
 > 思考：为什么安装模块需要在解析 eps 之前进行？  
 > 各个模块也会有各自的 service，在安装模块时，这些 service 会先行合并到项目 service 上，之后 eps 解析扩充项目 service 后，一起生成描述文件。
