@@ -127,4 +127,20 @@ export class BaseService {
       data,
     });
   }
+
+  delete(data: unknown) {
+    return this.request({
+      url: '/delete',
+      method: 'POST',
+      data,
+    });
+  }
+
+  add(data: unknown) {
+    return this.request({
+      url: '/add',
+      method: 'POST',
+      data,
+    });
+  }
 }

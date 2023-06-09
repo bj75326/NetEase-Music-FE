@@ -251,6 +251,11 @@ interface Eps {
 
 #### 6.3 解析 Eps
 
+Eps 解析可以参考下图：
+
+![nem_eps_parse](/src/assets/nem_eps_parse.png#gh-light-mode-only)
+![nem_eps_parse_dark](/src/assets/nem_eps_parse_dark.png#gh-dark-mode-only)
+
 > 思考：为什么安装模块需要在解析 eps 之前进行？  
 > 各个模块也会有各自的 service，在安装模块时，这些 service 会先行合并到项目 service 上，之后 eps 解析扩充项目 service 后，一起生成描述文件。
 
